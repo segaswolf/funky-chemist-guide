@@ -6,14 +6,19 @@
 <title>Funky Chem Guide</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f5f2eb;--surface:#fff;--ink:#1a1a1a;--ink2:#555;--ink3:#999;--rule:#e0ddd5;--brute:#c0392b;--burn:#d35400;--poison:#27ae60;--rad:#8e44ad;--oxy:#2980b9;--pre:#1a6b6b;--mix:#b7860b;--ok-bg:#f0fff4;--ok-ink:#27ae60;--warn-bg:#fff8f0;--warn-ink:#d35400;--sym:#0ea5e9}
+:root{
+  --bg:#f5f2eb;--surface:#fff;--ink:#1a1a1a;--ink2:#555;--ink3:#999;--rule:#e0ddd5;
+  --brute:#c0392b;--burn:#d35400;--poison:#27ae60;--rad:#8e44ad;--oxy:#2980b9;
+  --pre:#1a6b6b;--tube:#0ea5e9;--mix:#b7860b;
+  --ok-bg:#f0fff4;--ok-ink:#27ae60;--warn-bg:#fff8f0;--warn-ink:#d35400;--sym:#0ea5e9;
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6}
-header{background:var(--ink);color:#fff;padding:28px 40px 22px}
-header h1{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;line-height:1}
-header p{color:#aaa;font-family:'DM Mono',monospace;font-size:12px;margin-top:6px}
-nav{background:var(--surface);border-bottom:2px solid var(--rule);padding:0 40px;display:flex;overflow-x:auto;position:sticky;top:0;z-index:10}
-.tab{padding:14px 20px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:14px;cursor:pointer;color:var(--ink3);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:color .15s,border-color .15s;user-select:none}
+header{background:var(--ink);color:#fff;padding:24px 40px 20px}
+header h1{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;line-height:1}
+header p{color:#aaa;font-family:'DM Mono',monospace;font-size:11px;margin-top:5px}
+nav{background:var(--surface);border-bottom:2px solid var(--rule);padding:0 40px;display:flex;overflow-x:auto;position:sticky;top:0;z-index:10;gap:0}
+.tab{padding:13px 18px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:13px;cursor:pointer;color:var(--ink3);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;user-select:none;transition:color .15s,border-color .15s}
 .tab:hover{color:var(--ink)}
 .tab.active{color:var(--ink);border-bottom-color:var(--ink)}
 .tab[data-cat=brute].active{color:var(--brute);border-bottom-color:var(--brute)}
@@ -22,443 +27,1406 @@ nav{background:var(--surface);border-bottom:2px solid var(--rule);padding:0 40px
 .tab[data-cat=rad].active{color:var(--rad);border-bottom-color:var(--rad)}
 .tab[data-cat=oxy].active{color:var(--oxy);border-bottom-color:var(--oxy)}
 .tab[data-cat=pre].active{color:var(--pre);border-bottom-color:var(--pre)}
-.page{display:none;padding:36px 40px;max-width:1200px;margin:0 auto}
+.tab[data-cat=tube].active{color:var(--tube);border-bottom-color:var(--tube)}
+.tab[data-cat=special].active{color:#c8860a;border-bottom-color:#c8860a}
+.tab[data-cat=scenarios].active{color:var(--mix);border-bottom-color:var(--mix)}
+.page{display:none;padding:32px 40px;max-width:1200px;margin:0 auto}
 .page.active{display:block}
-.page-intro{font-size:15px;color:var(--ink2);margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--rule);max-width:680px;line-height:1.7}
-/* section headers inside tabs */
-.section-header{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--ink3);margin:28px 0 14px;padding-bottom:6px;border-bottom:1px solid var(--rule)}
-.section-header.first{margin-top:0}
-.section-header.mix{color:var(--mix);border-bottom-color:var(--mix)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:18px}
-/* cards */
-.card{background:var(--surface);border:1px solid var(--rule);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
-.card.brute{border-left:4px solid var(--brute)}.card.burn{border-left:4px solid var(--burn)}.card.poison{border-left:4px solid var(--poison)}.card.rad{border-left:4px solid var(--rad)}.card.oxy{border-left:4px solid var(--oxy)}.card.pre{border-left:4px solid var(--pre)}.card.mix{border-left:4px solid var(--mix)}
-.card-head{padding:14px 20px 12px;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:8px}
-.card-name{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;line-height:1}
-.card.brute .card-name{color:var(--brute)}.card.burn .card-name{color:var(--burn)}.card.poison .card-name{color:var(--poison)}.card.rad .card-name{color:var(--rad)}.card.oxy .card-name{color:var(--oxy)}.card.pre .card-name{color:var(--pre)}.card.mix .card-name{color:var(--mix)}
-.tag{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:4px 9px;border-radius:3px;background:var(--ink);color:#fff;align-self:flex-start;letter-spacing:0.5px}
-.card-body{padding:16px 20px;flex:1;display:flex;flex-direction:column;gap:14px}
-.heal-desc{font-size:14px;color:var(--ink2);line-height:1.6}
-.heal-desc strong{color:var(--ink);font-weight:700}
+.page-intro{font-size:14px;color:var(--ink2);margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--rule);max-width:700px;line-height:1.7}
+.sh{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--ink3);margin:24px 0 12px;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+.sh.first{margin-top:0}
+.sh.mix{color:var(--mix);border-color:var(--mix)}
+.sh.cold{color:var(--tube);border-color:var(--tube)}
+.sh.hot{color:#e05020;border-color:#e05020}
+.sh.dead{color:#7a4f9a;border-color:#7a4f9a}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:16px}
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:5px;display:flex;flex-direction:column}
+.card.brute{border-left:4px solid var(--brute)}.card.burn{border-left:4px solid var(--burn)}
+.card.poison{border-left:4px solid var(--poison)}.card.rad{border-left:4px solid var(--rad)}
+.card.oxy{border-left:4px solid var(--oxy)}.card.pre{border-left:4px solid var(--pre)}
+.card.tube{border-left:4px solid var(--tube)}.card.mix{border-left:4px solid var(--mix)}
+.card.hot{border-left:4px solid #e05020}.card.dead{border-left:4px solid #7a4f9a}
+.ch{padding:12px 18px 10px;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:6px}
+.cn{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;line-height:1}
+.card.brute .cn{color:var(--brute)}.card.burn .cn{color:var(--burn)}.card.poison .cn{color:var(--poison)}
+.card.rad .cn{color:var(--rad)}.card.oxy .cn{color:var(--oxy)}.card.pre .cn{color:var(--pre)}
+.card.tube .cn{color:var(--tube)}.card.mix .cn{color:var(--mix)}.card.hot .cn{color:#e05020}.card.dead .cn{color:#7a4f9a}
+.ctag{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;padding:3px 8px;border-radius:3px;background:var(--ink);color:#fff;align-self:flex-start;letter-spacing:0.5px}
+.cb{padding:14px 18px;flex:1;display:flex;flex-direction:column;gap:12px}
+.hd{font-size:13px;color:var(--ink2);line-height:1.55}.hd strong{color:var(--ink);font-weight:700}
 .rule{border:none;border-top:1px solid var(--rule)}
-.slabel{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:var(--ink3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
-.rlist{display:flex;flex-direction:column;gap:7px}
-.rrow{display:flex;align-items:baseline;gap:10px}
-.ramt{font-family:'DM Mono',monospace;font-size:18px;font-weight:500;min-width:30px;text-align:right;flex-shrink:0}
-.card.brute .ramt{color:var(--brute)}.card.burn .ramt{color:var(--burn)}.card.poison .ramt{color:var(--poison)}.card.rad .ramt{color:var(--rad)}.card.oxy .ramt{color:var(--oxy)}.card.pre .ramt{color:var(--pre)}.card.mix .ramt{color:var(--mix)}
-.rname{font-size:16px;font-weight:600;color:var(--ink)}
-.rnote{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);font-weight:400}
-.rcat{font-family:'DM Mono',monospace;font-size:10px;padding:2px 6px;border-radius:3px;background:#e8f8ff;color:#1a7aaa;margin-left:4px}
-.rtemp{font-family:'DM Mono',monospace;font-size:11px;color:var(--burn)}
-.prod{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--ok-bg);border-radius:4px;margin-top:2px}
-.parr{color:var(--ink3);font-size:16px}
-.pamt{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--ok-ink)}
-.pname{font-size:16px;font-weight:600;color:var(--ink)}
-/* batch */
-.batch{background:var(--bg);border:1px solid var(--rule);border-radius:4px;padding:14px 16px}
-.btitle{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;color:var(--ink3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
-.blist{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
-.brow{display:flex;align-items:center;gap:10px}
-.bamt{font-family:'DM Mono',monospace;font-size:16px;font-weight:700;color:var(--sym);min-width:36px;text-align:right;flex-shrink:0}
-.bname{font-size:15px;font-weight:600;color:var(--ink)}
-.bsub{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);margin-left:4px}
-.bsurplus{font-family:'DM Mono',monospace;font-size:11px;color:var(--warn-ink);margin-bottom:8px}
-.bresult{border-top:1px solid var(--rule);padding-top:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.bout{font-family:'DM Mono',monospace;font-size:14px;font-weight:700;color:var(--ok-ink)}
-.bjug{font-family:'DM Mono',monospace;font-size:12px;color:var(--ink3)}
-/* jug */
-.jug{background:var(--ink);border-radius:4px;padding:12px 14px;margin-top:auto}
-.jtitle{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;color:#888;margin-bottom:6px}
-.jlabel{font-family:'DM Mono',monospace;font-weight:500;font-size:14px;color:#fff;line-height:1.5}
-/* mix jug — golden */
-.jug.gold{background:#2a1f00;border:1px solid var(--mix)}
-.jug.gold .jlabel{color:#ffd966}
-/* alerts */
-.warn{padding:10px 14px;background:var(--warn-bg);border-left:3px solid var(--burn);border-radius:0 4px 4px 0;font-size:14px;color:var(--warn-ink);line-height:1.5}
-.note{padding:10px 14px;background:#f8f8f8;border-left:3px solid var(--ink3);border-radius:0 4px 4px 0;font-size:14px;color:var(--ink2);line-height:1.5}
-/* mix components list */
-.mixlist{display:flex;flex-direction:column;gap:8px}
-.mixrow{display:flex;align-items:baseline;gap:10px;padding:8px 12px;background:var(--bg);border:1px solid var(--rule);border-radius:4px}
-.mixamt{font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:var(--mix);min-width:40px;text-align:right;flex-shrink:0}
-.mixname{font-size:15px;font-weight:600;color:var(--ink)}
-.mixeff{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);margin-left:auto}
+.sl{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;color:var(--ink3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.rl{display:flex;flex-direction:column;gap:6px}
+.rr{display:flex;align-items:baseline;gap:8px}
+.ra{font-family:'DM Mono',monospace;font-size:16px;font-weight:500;min-width:28px;text-align:right;flex-shrink:0}
+.card.brute .ra{color:var(--brute)}.card.burn .ra{color:var(--burn)}.card.poison .ra{color:var(--poison)}
+.card.rad .ra{color:var(--rad)}.card.oxy .ra{color:var(--oxy)}.card.pre .ra{color:var(--pre)}
+.card.tube .ra{color:var(--tube)}.card.hot .ra{color:#e05020}.card.dead .ra{color:#7a4f9a}
+.rn{font-size:15px;font-weight:600;color:var(--ink)}
+.rno{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)}
+.rca{font-family:'DM Mono',monospace;font-size:10px;padding:1px 5px;border-radius:3px;background:#e8f8ff;color:#1a7aaa;margin-left:3px}
+.rt{font-family:'DM Mono',monospace;font-size:10px;color:var(--burn);margin-left:3px}
+.prod{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--ok-bg);border-radius:4px;margin-top:2px}
+.pa{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--ok-ink)}
+.pn{font-size:14px;font-weight:600;color:var(--ink)}
+/* BATCH */
+.bat{background:var(--bg);border:1px solid var(--rule);border-radius:4px;padding:12px 14px}
+.bt{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;color:var(--ink3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+.bl{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.br{display:flex;align-items:center;gap:8px}
+.ba{font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:var(--sym);min-width:34px;text-align:right;flex-shrink:0}
+.bn{font-size:14px;font-weight:600;color:var(--ink)}
+.bs{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);margin-left:3px}
+.bres{border-top:1px solid var(--rule);padding-top:8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.bout{font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--ok-ink)}
+.bjug{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)}
+/* JUG */
+.jug{background:var(--ink);border-radius:4px;padding:10px 14px;margin-top:auto}
+.jt{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;color:#777;margin-bottom:5px}
+.jl{font-family:'DM Mono',monospace;font-weight:500;font-size:13px;color:#fff;line-height:1.5}
+.jug.gold{background:#1a1200;border:1px solid var(--mix)}
+.jug.gold .jl{color:#ffd966}
+/* ALERTS */
+.warn{padding:9px 12px;background:var(--warn-bg);border-left:3px solid var(--burn);font-size:13px;color:var(--warn-ink);line-height:1.5;border-radius:0 3px 3px 0}
+.note{padding:9px 12px;background:#f5f5f5;border-left:3px solid var(--ink3);font-size:13px;color:var(--ink2);line-height:1.5;border-radius:0 3px 3px 0}
+.info{padding:9px 12px;background:#e8f8ff;border-left:3px solid var(--tube);font-size:13px;color:#0a5a8a;line-height:1.5;border-radius:0 3px 3px 0}
+/* MIX COMPONENTS */
+.ml{display:flex;flex-direction:column;gap:6px}
+.mr{display:flex;align-items:baseline;gap:8px;padding:7px 10px;background:var(--bg);border:1px solid var(--rule);border-radius:3px}
+.mu{font-family:'DM Mono',monospace;font-size:14px;font-weight:700;color:var(--mix);min-width:38px;text-align:right;flex-shrink:0}
+.mn{font-size:14px;font-weight:600;color:var(--ink)}
+.me{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);margin-left:auto}
 ::-webkit-scrollbar{height:4px;width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--rule);border-radius:2px}
+
+.tab[data-cat=calc].active{color:#6366f1;border-bottom-color:#6366f1}
+/* CALCULATOR */
+#calc-wrap{max-width:760px}
+.calc-search-row{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+#calc-input{font-family:'DM Mono',monospace;font-size:16px;padding:10px 14px;border:2px solid var(--rule);border-radius:5px;background:var(--surface);color:var(--ink);flex:1;min-width:200px;outline:none}
+#calc-input:focus{border-color:#6366f1}
+.qty-btns{display:flex;gap:6px;flex-wrap:wrap}
+.qty-btn{font-family:'DM Mono',monospace;font-size:13px;font-weight:700;padding:8px 12px;border:2px solid var(--rule);border-radius:4px;cursor:pointer;background:var(--surface);color:var(--ink2);transition:all .15s}
+.qty-btn:hover{border-color:#6366f1;color:#6366f1}
+.qty-btn.active{background:#6366f1;border-color:#6366f1;color:#fff}
+.suggestions{position:relative}
+.sug-list{position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1px solid var(--rule);border-radius:0 0 5px 5px;z-index:20;max-height:220px;overflow-y:auto;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+.sug-item{padding:9px 14px;font-size:14px;cursor:pointer;font-family:'DM Mono',monospace;color:var(--ink2)}
+.sug-item:hover,.sug-item.sel{background:#f0f0ff;color:#6366f1}
+#calc-result{margin-top:8px}
+.calc-section{background:var(--surface);border:1px solid var(--rule);border-radius:5px;overflow:hidden;margin-bottom:12px}
+.calc-section-head{padding:10px 16px;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.calc-section-head.disp{background:#f0fff4;color:#27ae60;border-bottom:1px solid #d0f0d8}
+.calc-section-head.ext{background:#fff8f0;color:#d35400;border-bottom:1px solid #f0ddd0}
+.calc-section-head.steps{background:#f0f0ff;color:#6366f1;border-bottom:1px solid #ddddf0}
+.calc-ing-list{display:flex;flex-direction:column}
+.calc-ing-row{display:flex;align-items:center;gap:10px;padding:8px 16px;border-bottom:1px solid var(--rule)}
+.calc-ing-row:last-child{border-bottom:none}
+.calc-ing-amt{font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:var(--sym);min-width:60px;text-align:right;flex-shrink:0}
+.calc-ing-name{font-size:14px;font-weight:600;color:var(--ink)}
+.calc-step{padding:12px 16px;border-bottom:1px solid var(--rule)}
+.calc-step:last-child{border-bottom:none}
+.calc-step-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.calc-step-num{font-family:'DM Mono',monospace;font-size:11px;background:#6366f1;color:#fff;padding:2px 7px;border-radius:3px;flex-shrink:0}
+.calc-step-name{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#6366f1}
+.calc-step-out{font-family:'DM Mono',monospace;font-size:12px;color:var(--ok-ink);margin-left:auto}
+.calc-step-temp{font-family:'DM Mono',monospace;font-size:11px;background:#fff8f0;color:#d35400;padding:2px 7px;border-radius:3px}
+.calc-step-ings{display:flex;flex-direction:column;gap:4px;margin-left:24px}
+.calc-step-ing{display:flex;align-items:center;gap:8px;font-size:13px}
+.calc-step-ing-amt{font-family:'DM Mono',monospace;font-weight:700;color:var(--sym);min-width:55px;text-align:right}
+.calc-step-ing-name{color:var(--ink)}
+.tag-disp{font-family:'DM Mono',monospace;font-size:10px;padding:1px 5px;border-radius:2px;background:#e8f8ee;color:#27ae60}
+.tag-ext{font-family:'DM Mono',monospace;font-size:10px;padding:1px 5px;border-radius:2px;background:#fff0e8;color:#d35400}
+.tag-synth{font-family:'DM Mono',monospace;font-size:10px;padding:1px 5px;border-radius:2px;background:#eeeeff;color:#6366f1}
+.tag-cat{font-family:'DM Mono',monospace;font-size:10px;padding:1px 5px;border-radius:2px;background:#e8e8f8;color:#888}
+.calc-empty{padding:48px 20px;text-align:center;color:var(--ink3);font-family:'DM Mono',monospace;font-size:14px}
+
+
+.tab[data-cat=ext].active{color:#d97706;border-bottom-color:#d97706}
+.tab[data-cat=toxins].active{color:#e53e3e;border-bottom-color:#e53e3e}
+#page-toxins{background:#0f0f0f;min-height:calc(100vh - 120px)}
+#page-toxins .page-intro{color:#aaa;border-color:#2a2a2a}
+#page-toxins .sh{color:#e53e3e;border-color:#e53e3e;opacity:0.9}
+#page-toxins .sh.synth{color:#ff8c00;border-color:#ff8c00}
+#page-toxins .sh.special-formula{color:#9b59b6;border-color:#9b59b6}
+.tcard{background:#1a1a1a;border:1px solid #2a2a2a;border-left:4px solid #e53e3e;border-radius:5px;display:flex;flex-direction:column}
+.tcard.orange{border-left-color:#ff8c00}
+.tcard.purple{border-left-color:#9b59b6}
+.tcard.yellow{border-left-color:#f0c040}
+.tcard-head{padding:12px 18px 10px;border-bottom:1px solid #2a2a2a;display:flex;flex-direction:column;gap:6px}
+.tcard-name{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#e53e3e;line-height:1}
+.tcard.orange .tcard-name{color:#ff8c00}
+.tcard.purple .tcard-name{color:#9b59b6}
+.tcard.yellow .tcard-name{color:#f0c040}
+.ttag{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;padding:3px 8px;border-radius:3px;background:#2a0000;color:#e53e3e;align-self:flex-start;letter-spacing:0.5px}
+.tcard.orange .ttag{background:#2a1500;color:#ff8c00}
+.tcard.purple .ttag{background:#1a0a2a;color:#9b59b6}
+.tcard.yellow .ttag{background:#2a2000;color:#f0c040}
+.tcard-body{padding:14px 18px;flex:1;display:flex;flex-direction:column;gap:12px}
+.tdesc{font-size:13px;color:#aaa;line-height:1.6}
+.tdesc strong{color:#fff;font-weight:700}
+.twarn{padding:9px 12px;background:#1a0000;border-left:3px solid #e53e3e;font-size:13px;color:#e53e3e;line-height:1.5;border-radius:0 3px 3px 0}
+.tnote{padding:9px 12px;background:#151515;border-left:3px solid #444;font-size:13px;color:#888;line-height:1.5;border-radius:0 3px 3px 0}
+.tsl{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;color:#555;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.trl{display:flex;flex-direction:column;gap:6px}
+.trr{display:flex;align-items:baseline;gap:8px}
+.tra{font-family:'DM Mono',monospace;font-size:16px;font-weight:500;min-width:28px;text-align:right;flex-shrink:0;color:#e53e3e}
+.tcard.orange .tra{color:#ff8c00}
+.tcard.purple .tra{color:#9b59b6}
+.tcard.yellow .tra{color:#f0c040}
+.trn{font-size:14px;font-weight:600;color:#ddd}
+.tno{font-family:'DM Mono',monospace;font-size:11px;color:#555}
+.tprod{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#0d1f0d;border-radius:4px;margin-top:2px}
+.tpa{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#27ae60}
+.tpn{font-size:14px;font-weight:600;color:#aaa}
+.tbat{background:#111;border:1px solid #2a2a2a;border-radius:4px;padding:12px 14px}
+.tbt{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;color:#555;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+.tbl{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.tbr{display:flex;align-items:center;gap:8px}
+.tba{font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:var(--sym);min-width:34px;text-align:right;flex-shrink:0}
+.tbn{font-size:14px;font-weight:600;color:#ddd}
+.tbs{font-family:'DM Mono',monospace;font-size:11px;color:#555;margin-left:3px}
+.tbres{border-top:1px solid #2a2a2a;padding-top:8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.tbout{font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:#27ae60}
+.tbjug{font-family:'DM Mono',monospace;font-size:11px;color:#555}
+.tfx-row{display:flex;align-items:center;gap:10px;padding:7px 12px;background:#0a0a0a;border:1px solid #2a2a2a;border-radius:3px}
+.tfx-amt{font-family:'DM Mono',monospace;font-size:14px;font-weight:700;color:#e53e3e;min-width:80px;flex-shrink:0}
+.tfx-name{font-size:13px;font-weight:600;color:#ddd}
+.tfx-desc{font-family:'DM Mono',monospace;font-size:11px;color:#666;margin-left:auto}
+
+
+/* EXTERNAL SOURCES */
+.ext-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.ext-card{background:var(--surface);border:1px solid var(--rule);border-left:4px solid #d97706;border-radius:5px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.ext-card.botany{border-left-color:#27ae60}
+.ext-card.syndie{border-left-color:#e53e3e}
+.ext-card.salvage{border-left-color:#8e44ad}
+.ext-card.medical{border-left-color:#2980b9}
+.ext-card.atmos{border-left-color:#0ea5e9}
+.ext-card.special{border-left-color:#555}
+.ext-head{display:flex;align-items:center;gap:10px}
+.ext-icon{font-size:20px;flex-shrink:0}
+.ext-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--ink)}
+.ext-badge{font-family:'DM Mono',monospace;font-size:10px;padding:2px 7px;border-radius:3px;background:#fff3cd;color:#92600a;align-self:flex-start;margin-left:auto}
+.ext-card.botany .ext-badge{background:#d4f0d4;color:#1a6b1a}
+.ext-card.syndie .ext-badge{background:#ffd4d4;color:#8b0000}
+.ext-card.salvage .ext-badge{background:#e8d4f0;color:#5b1a8b}
+.ext-card.medical .ext-badge{background:#d4e8f0;color:#1a5b8b}
+.ext-card.atmos .ext-badge{background:#d4f0ff;color:#006b8b}
+.ext-sources{display:flex;flex-direction:column;gap:4px}
+.ext-source-row{display:flex;align-items:flex-start;gap:6px;font-size:13px;color:var(--ink2)}
+.ext-source-row::before{content:"→";color:var(--ok-ink);font-weight:700;flex-shrink:0;margin-top:1px}
+.ext-used-for{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);padding:6px 10px;background:var(--bg);border-radius:3px;border-left:2px solid var(--rule)}
+
 </style>
 </head>
 <body>
 <header>
   <h1>Funky Station — Chem Guide</h1>
-  <p>Tier 1 · Base medicines · Direct from repo · May 2026 · Dispenser units: 1, 5, 10, 15, 20, 25, 30, 50</p>
+  <p>Data from repo · Funky Station · May 2026 · Dispenser units: 1, 5, 10, 15, 20, 25, 30, 50u</p>
 </header>
 <nav>
-  <div class="tab active" data-cat="pre"    onclick="showTab('pre')">⚗ Precursors</div>
-  <div class="tab"        data-cat="brute"  onclick="showTab('brute')">🩸 Brute</div>
-  <div class="tab"        data-cat="burn"   onclick="showTab('burn')">🔥 Burn</div>
-  <div class="tab"        data-cat="poison" onclick="showTab('poison')">☣ Poison</div>
-  <div class="tab"        data-cat="rad"    onclick="showTab('rad')">☢ Rad</div>
-  <div class="tab"        data-cat="oxy"    onclick="showTab('oxy')">💨 Oxy</div>
+  <div class="tab active" data-cat="pre"       onclick="T('pre')">⚗ Precursors</div>
+  <div class="tab"        data-cat="brute"     onclick="T('brute')">🩸 Brute</div>
+  <div class="tab"        data-cat="burn"      onclick="T('burn')">🔥 Burn</div>
+  <div class="tab"        data-cat="poison"    onclick="T('poison')">☣ Poison</div>
+  <div class="tab"        data-cat="rad"       onclick="T('rad')">☢ Rad</div>
+  <div class="tab"        data-cat="oxy"       onclick="T('oxy')">💨 Oxy</div>
+  <div class="tab"        data-cat="tube"      onclick="T('tube')">🧊 Tube</div>
+  <div class="tab"        data-cat="special"   onclick="T('special')">⭐ Special</div>
+  <div class="tab"        data-cat="calc"      onclick="T('calc')">🔍 Calculator</div>
+  <div class="tab"        data-cat="ext"       onclick="T('ext')">📦 External</div>
+  <div class="tab"        data-cat="toxins"    onclick="T('toxins')">☠ Toxins</div>
+  <div class="tab"        data-cat="scenarios" onclick="T('scenarios')">📋 Scenarios</div>
 </nav>
 
+<!-- ALL PAGES - static divs BEFORE the script -->
 <div class="page active" id="page-pre">
-  <p class="page-intro">Synthesize these first and stock in jugs — they aren't available directly from the dispenser. <strong>Water</strong> comes from the sink, treat it as free.</p>
-  <div class="grid" id="grid-pre"></div>
+  <p class="page-intro">These chemicals are not available directly from the dispenser. Synthesize and stock them in jugs first. <strong>Water</strong> comes from the sink — treat as free. Multiple dispenser pulses are allowed.</p>
+  <div class="grid" id="g-pre"></div>
 </div>
+
 <div class="page" id="page-brute">
-  <p class="page-intro">Physical damage. T1 covers general Brute. T2 targets specific subtypes. Recommended mixes at the bottom combine coverage for typical scenarios.</p>
-  <div id="content-brute"></div>
+  <p class="page-intro">Physical damage. T1 generics cover all Brute. T2 target specific subtypes (Blunt, Slash, Pierce). Recommended mixes at the bottom.</p>
+  <div id="c-brute"></div>
 </div>
+
 <div class="page" id="page-burn">
-  <p class="page-intro">Thermal damage — Heat, Cold, Shock. T1 covers all three. T2 adds scaling or specialization. Burn does NOT cause bleeding, so no need to pair with Saline.</p>
-  <div id="content-burn"></div>
+  <p class="page-intro">Thermal damage — Heat, Cold, Shock. T1 covers all three types. T2 specialized or scaled. Recommended mixes at the bottom.</p>
+  <div id="c-burn"></div>
 </div>
+
 <div class="page" id="page-poison">
-  <p class="page-intro">Toxin damage and bloodstream contamination. Multiver is always useful. Stellibinin is the go-to for plant/mushroom poisons (Amatoxin).</p>
-  <div id="content-poison"></div>
+  <p class="page-intro">Toxin and bloodstream damage. Recommended mixes at the bottom.</p>
+  <div id="c-poison"></div>
 </div>
+
 <div class="page" id="page-rad">
-  <p class="page-intro">Radiation damage. Always pair Arithrazine with Libital — it causes Brute damage as a side effect.</p>
-  <div id="content-rad"></div>
+  <p class="page-intro">Radiation damage. Arithrazine always causes Brute as a side effect — pair with Libital. Recommended mixes at the bottom.</p>
+  <div id="c-rad"></div>
 </div>
+
 <div class="page" id="page-oxy">
-  <p class="page-intro">Airloss, asphyxiation, and blood loss. Saline restores blood volume — always pair with anti-bleed meds for hemorrhage. Epinephrine only activates in Critical.</p>
-  <div id="content-oxy"></div>
+  <p class="page-intro">Airloss, asphyxiation, and blood loss. Recommended mixes at the bottom.</p>
+  <div id="c-oxy"></div>
+</div>
+
+<div class="page" id="page-tube">
+  <p class="page-intro">These chems only activate based on the <strong>patient's body temperature</strong>. The cryo pod cools the patient below 213K. The hot pod heats above 337-343K. Inject before placing in pod. See temperature management tips at the bottom.</p>
+  <div id="c-tube"></div>
+</div>
+
+<div class="page" id="page-special">
+  <p class="page-intro">Specialized medications targeting specific conditions — eye damage, caustic burns, topical treatments, and narcotic/stimulant cleansing. Some require external ingredients not available from the dispenser.</p>
+  <div id="c-special"></div>
+</div>
+
+<div class="page" id="page-calc">
+  <p class="page-intro">Search any synthesizable chem — get the full ingredient list from the dispenser up, with every synthesis step in order. Select your target amount using the dispenser units.</p>
+  <div id="calc-wrap">
+    <div class="calc-search-row">
+      <div class="suggestions" style="flex:1;min-width:200px">
+        <input id="calc-input" type="text" placeholder="Search chem... e.g. Bruizine, Epinephrine" autocomplete="off">
+        <div class="sug-list" id="sug-list" style="display:none"></div>
+      </div>
+    </div>
+    <div class="qty-btns" id="qty-btns">
+      <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);align-self:center;margin-right:4px">TARGET AMOUNT:</span>
+      <button class="qty-btn" data-q="10">10u</button>
+      <button class="qty-btn" data-q="20">20u</button>
+      <button class="qty-btn" data-q="30">30u</button>
+      <button class="qty-btn" data-q="50">50u</button>
+      <button class="qty-btn active" data-q="100">100u</button>
+      <button class="qty-btn" data-q="200">200u</button>
+    </div>
+    <div id="calc-result"><div class="calc-empty">Type a chem name above to see the full synthesis plan.</div></div>
+  </div>
+</div>
+
+<div class="page" id="page-ext">
+  <p class="page-intro">Ingredients that cannot be obtained from the chemistry dispenser. Each entry lists where to find it in the station and what it's used for. Verify with botany or the relevant department before starting synthesis.</p>
+  <div id="c-ext"></div>
+</div>
+
+<div class="page" id="page-toxins">
+  <p class="page-intro">Toxins, poisons, and hazardous reagents present in the station. Some are synthesizable — others are obtained externally (syndicate uplinks, events, plants). Lead and similar heavy metals typically enter circulation through sabotage of station systems.</p>
+  <div id="c-toxins"></div>
+</div>
+
+<div class="page" id="page-scenarios">
+  <p class="page-intro">Pre-designed jug compositions for common clinical scenarios. No recipes here — just what to put in each jug and why. All numbers from the repo.</p>
+  <div id="c-scenarios"></div>
 </div>
 
 <script>
-function showTab(cat){
+function T(cat){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelector('.tab[data-cat="'+cat+'"]').classList.add('active');
   document.getElementById('page-'+cat).classList.add('active');
 }
 
+// Build a chem card
 function C(cat,name,tag,heal,recipe,batch,jugLabel,warn,note){
-  const rc=recipe.r.map(r=>`<div class="rrow"><span class="ramt">${r.a}</span><span class="rname">${r.n}${r.note?` <span class="rnote">${r.note}</span>`:''}${r.cat?` <span class="rcat">CATALYST</span>`:''}</span></div>`).join('');
-  const bl=batch.i.map(b=>`<div class="brow"><span class="bamt">${b.a}u</span><span class="bname">${b.n}${b.s?` <span class="bsub">${b.s}</span>`:''}</span></div>`).join('');
+  const rc=recipe.r.map(r=>`<div class="rr"><span class="ra">${r.a}</span><span class="rn">${r.n}${r.no?` <span class="rno">${r.no}</span>`:''}${r.cat?` <span class="rca">CATALYST</span>`:''}</span>${r.t?`<span class="rt">🌡 ${r.t}</span>`:''}</div>`).join('');
+  const bl=batch.i.map(b=>`<div class="br"><span class="ba">${b.a}u</span><span class="bn">${b.n}${b.s?` <span class="bs">${b.s}</span>`:''}</span></div>`).join('');
   const tmp=batch.temp?` · 🌡 ${batch.temp}`:'';
   return `<div class="card ${cat}">
-  <div class="card-head"><span class="card-name">${name}</span><span class="tag">${tag}</span></div>
-  <div class="card-body">
-    ${warn?`<div class="warn">${warn}</div>`:''}
-    ${note?`<div class="note">${note}</div>`:''}
-    ${heal?`<div class="heal-desc">${heal}</div><hr class="rule">`:''}
-    <div><div class="slabel">Recipe${recipe.temp?` <span class="rtemp">🌡 ${recipe.temp}</span>`:''}</div>
-    <div class="rlist">${rc}</div>
-    <div class="prod"><span class="parr">→</span><span class="pamt">${recipe.out}u</span><span class="pname">${recipe.prod}</span></div></div>
-    <div class="batch"><div class="btitle">Optimal batch — 100u beaker${tmp}</div>
-    <div class="blist">${bl}</div>
-    ${batch.surplus?`<div class="bsurplus">⚠ ${batch.surplus}</div>`:''}
-    <div class="bresult"><span class="bout">→ ${batch.out}u ${recipe.prod}</span><span class="bjug">${batch.n}× → 200u jug</span></div></div>
-    ${jugLabel?`<div class="jug"><div class="jtitle">Jug label</div><div class="jlabel">${jugLabel}</div></div>`:''}
-  </div></div>`;
+<div class="ch"><span class="cn">${name}</span><span class="ctag">${tag}</span></div>
+<div class="cb">
+${warn?`<div class="warn">${warn}</div>`:''}
+${note?`<div class="note">${note}</div>`:''}
+${heal?`<div class="hd">${heal}</div><hr class="rule">`:''}
+<div><div class="sl">Recipe${recipe.temp?` <span class="rt">🌡 ${recipe.temp}</span>`:''}</div>
+<div class="rl">${rc}</div>
+<div class="prod"><span style="color:var(--ink3);margin-right:2px">→</span><span class="pa">${recipe.out}u</span><span class="pn">${recipe.prod}</span></div></div>
+<div class="bat"><div class="bt">Optimal batch — 100u beaker${tmp}</div>
+<div class="bl">${bl}</div>
+${batch.surplus?`<div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--warn-ink);margin-bottom:6px">${batch.surplus}</div>`:''}
+<div class="bres"><span class="bout">→ ${batch.out}u ${recipe.prod}</span><span class="bjug">${batch.n}x → 200u jug</span></div></div>
+${jugLabel?`<div class="jug"><div class="jt">Jug label</div><div class="jl">${jugLabel}</div></div>`:''}
+</div></div>`;
 }
 
-function MIX(name,tag,why,components,jugLabel,warn){
-  const cl=components.map(c=>`<div class="mixrow"><span class="mixamt">${c.u}u</span><span class="mixname">${c.n}</span><span class="mixeff">${c.e}</span></div>`).join('');
-  return `<div class="card mix">
-  <div class="card-head"><span class="card-name">${name}</span><span class="tag">${tag}</span></div>
-  <div class="card-body">
-    ${warn?`<div class="warn">${warn}</div>`:''}
-    <div class="heal-desc">${why}</div>
-    <hr class="rule">
-    <div><div class="slabel">Jug composition (200u total)</div>
-    <div class="mixlist">${cl}</div></div>
-    <div class="jug gold"><div class="jtitle">Jug label</div><div class="jlabel">${jugLabel}</div></div>
-  </div></div>`;
+// Build a mix/scenario card
+function M(cat,name,tag,why,comps,jugLabel,warn){
+  const cl=comps.map(c=>`<div class="mr"><span class="mu">${c.u}u</span><span class="mn">${c.n}</span><span class="me">${c.e}</span></div>`).join('');
+  return `<div class="card ${cat}">
+<div class="ch"><span class="cn">${name}</span><span class="ctag">${tag}</span></div>
+<div class="cb">
+${warn?`<div class="warn">${warn}</div>`:''}
+<div class="hd">${why}</div>
+<hr class="rule">
+<div><div class="sl">Jug composition (200u total)</div><div class="ml">${cl}</div></div>
+<div class="jug gold"><div class="jt">Jug label</div><div class="jl">${jugLabel}</div></div>
+</div></div>`;
 }
 
-function SH(label,cls=''){return `<div class="section-header ${cls}">${label}</div>`;}
+function SH(label,cls){return `<div class="sh ${cls||''}">${label}</div>`;}
 
-// ═══ PRECURSORS ═══
-document.getElementById('grid-pre').innerHTML=[
-  C('pre','OIL','PRE · no OD',null,
-    {r:[{a:1,n:'WeldingFuel'},{a:1,n:'Hydrogen'},{a:1,n:'Carbon'}],out:4,prod:'Oil'},
-    {i:[{a:25,n:'WeldingFuel'},{a:25,n:'Hydrogen'},{a:25,n:'Carbon'}],out:100,n:2},null,null,null),
-  C('pre','AMMONIA','PRE · no OD',null,
-    {r:[{a:3,n:'Hydrogen'},{a:1,n:'Nitrogen'}],out:4,prod:'Ammonia'},
-    {i:[{a:60,n:'Hydrogen',s:'(2× 30u)'},{a:20,n:'Nitrogen'}],out:80,n:3},null,null,null),
-  C('pre','TABLESALT','PRE · 🌡 370K',null,
-    {r:[{a:1,n:'Chlorine'},{a:1,n:'Sodium'}],out:2,prod:'TableSalt',temp:'370K'},
-    {i:[{a:50,n:'Chlorine'},{a:50,n:'Sodium'}],out:100,n:2,temp:'370K'},null,null,null),
-  C('pre','SULFURICACID','PRE · no OD',null,
-    {r:[{a:1,n:'Hydrogen'},{a:1,n:'Sulfur'},{a:2,n:'Oxygen'}],out:3,prod:'SulfuricAcid'},
-    {i:[{a:25,n:'Hydrogen'},{a:25,n:'Sulfur'},{a:50,n:'Oxygen'}],out:75,n:3},null,null,null),
-  C('pre','HYDROXIDE','PRE · 🌡 310K',null,
-    {r:[{a:1,n:'Oxygen'},{a:1,n:'Hydrogen'}],out:2,prod:'Hydroxide',temp:'310K'},
-    {i:[{a:50,n:'Oxygen'},{a:50,n:'Hydrogen'}],out:100,n:2,temp:'310K'},null,null,null),
-  C('pre','ACETONE','PRE · 2-step',null,
-    {r:[{a:1,n:'Oil',note:'(synth first)'},{a:1,n:'WeldingFuel'},{a:1,n:'Oxygen'}],out:3,prod:'Acetone'},
-    {i:[{a:30,n:'Oil'},{a:30,n:'WeldingFuel'},{a:30,n:'Oxygen'}],out:90,n:3},null,null,null),
-  C('pre','BENZENE','PRE · 🌡 310K · ×1',null,
-    {r:[{a:1,n:'Hydrogen'},{a:1,n:'Carbon'}],out:1,prod:'Benzene',temp:'310K'},
-    {i:[{a:50,n:'Hydrogen'},{a:50,n:'Carbon'}],out:50,n:4,temp:'310K'},null,null,
-    '×1 ratio — output equals half the input. Precursor for Phenol and Lacerinol.'),
-  C('pre','PHENOL','PRE · 2-step',null,
-    {r:[{a:1,n:'Hydroxide',note:'(O+H, 310K)'},{a:1,n:'Benzene',note:'(H+C, 310K)'}],out:2,prod:'Phenol'},
-    {i:[{a:50,n:'Hydroxide'},{a:50,n:'Benzene'}],out:100,n:2},null,null,null),
-  C('pre','DEXALIN','PRE · Plasma needed',null,
-    {r:[{a:2,n:'Oxygen'},{a:1,n:'Plasma',cat:true}],out:3,prod:'Dexalin'},
-    {i:[{a:25,n:'Plasma',s:'(stays, not consumed)'},{a:50,n:'Oxygen'}],out:75,n:3},null,null,
-    'Plasma is a catalyst — stays in the beaker every batch. Add once, then add Oxygen each time.'),
-  C('pre','INAPROVALINE','PRE · no OD',null,
-    {r:[{a:1,n:'Oxygen'},{a:1,n:'Carbon'},{a:1,n:'Sugar'}],out:3,prod:'Inaprovaline'},
-    {i:[{a:30,n:'Oxygen'},{a:30,n:'Carbon'},{a:30,n:'Sugar'}],out:90,n:3},null,null,null),
+// ══════════════════════════════════════
+// PRECURSORS
+// ══════════════════════════════════════
+document.getElementById('g-pre').innerHTML=[
+C('pre','OIL','PRE · no OD',null,
+  {r:[{a:1,n:'WeldingFuel'},{a:1,n:'Hydrogen'},{a:1,n:'Carbon'}],out:4,prod:'Oil'},
+  {i:[{a:25,n:'WeldingFuel'},{a:25,n:'Hydrogen'},{a:25,n:'Carbon'}],out:100,n:2}),
+
+C('pre','AMMONIA','PRE · no OD',null,
+  {r:[{a:3,n:'Hydrogen'},{a:1,n:'Nitrogen'}],out:4,prod:'Ammonia'},
+  {i:[{a:60,n:'Hydrogen',s:'(2x30u)'},{a:20,n:'Nitrogen'}],out:80,n:3}),
+
+C('pre','TABLESALT','PRE · 🌡 370K',null,
+  {r:[{a:1,n:'Chlorine'},{a:1,n:'Sodium'}],out:2,prod:'TableSalt',temp:'370K'},
+  {i:[{a:50,n:'Chlorine'},{a:50,n:'Sodium'}],out:100,n:2,temp:'370K'}),
+
+C('pre','SULFURICACID','PRE · no OD',null,
+  {r:[{a:1,n:'Hydrogen'},{a:1,n:'Sulfur'},{a:2,n:'Oxygen'}],out:3,prod:'SulfuricAcid'},
+  {i:[{a:25,n:'Hydrogen'},{a:25,n:'Sulfur'},{a:50,n:'Oxygen'}],out:75,n:3}),
+
+C('pre','HYDROXIDE','PRE · 🌡 310K',null,
+  {r:[{a:1,n:'Oxygen'},{a:1,n:'Hydrogen'}],out:2,prod:'Hydroxide',temp:'310K'},
+  {i:[{a:50,n:'Oxygen'},{a:50,n:'Hydrogen'}],out:100,n:2,temp:'310K'}),
+
+C('pre','ACETONE','PRE · no OD',null,
+  {r:[{a:1,n:'Oil',no:'(synth first)'},{a:1,n:'WeldingFuel'},{a:1,n:'Oxygen'}],out:3,prod:'Acetone'},
+  {i:[{a:30,n:'Oil'},{a:30,n:'WeldingFuel'},{a:30,n:'Oxygen'}],out:90,n:3}),
+
+C('pre','BENZENE','PRE · 🌡 310K · ×1',null,
+  {r:[{a:1,n:'Hydrogen'},{a:1,n:'Carbon'}],out:1,prod:'Benzene',temp:'310K'},
+  {i:[{a:50,n:'Hydrogen'},{a:50,n:'Carbon'}],out:50,n:4,temp:'310K'},
+  null,null,'Output ratio x1 — half the input is lost. Precursor for Phenol and Lacerinol.'),
+
+C('pre','PHENOL','PRE · no OD',null,
+  {r:[{a:1,n:'Hydroxide',no:'(O+H 310K)'},{a:1,n:'Benzene',no:'(H+C 310K)'}],out:2,prod:'Phenol'},
+  {i:[{a:50,n:'Hydroxide'},{a:50,n:'Benzene'}],out:100,n:2}),
+
+C('pre','DEXALIN','PRE · OD 20',null,
+  {r:[{a:2,n:'Oxygen'},{a:1,n:'Plasma',cat:true}],out:3,prod:'Dexalin'},
+  {i:[{a:25,n:'Plasma',s:'(stays, not consumed)'},{a:50,n:'Oxygen'}],out:75,n:3},
+  null,null,'Plasma is added once and stays in the beaker. Use the ChemMaster to output only the product before transferring to jug — otherwise Plasma goes into the jug too.'),
+
+C('pre','INAPROVALINE','PRE · no OD',null,
+  {r:[{a:1,n:'Oxygen'},{a:1,n:'Carbon'},{a:1,n:'Sugar'}],out:3,prod:'Inaprovaline'},
+  {i:[{a:30,n:'Oxygen'},{a:30,n:'Carbon'},{a:30,n:'Sugar'}],out:90,n:3}),
+
+C('pre','POTASSIUMIODIDE','PRE · OD 20',null,
+  {r:[{a:1,n:'Potassium'},{a:1,n:'Iodine'}],out:2,prod:'PotassiumIodide'},
+  {i:[{a:50,n:'Potassium'},{a:50,n:'Iodine'}],out:100,n:2}),
+
+C('pre','FERSILICITE','PRE · 🌡 310K',null,
+  {r:[{a:1,n:'Iron'},{a:1,n:'Silicon'}],out:2,prod:'Fersilicite',temp:'310K'},
+  {i:[{a:50,n:'Iron'},{a:50,n:'Silicon'}],out:100,n:2,temp:'310K'}),
+
+C('pre','PROBITAL','PRE · OD 20',null,
+  {r:[{a:1,n:'Acetone'},{a:1,n:'Copper'},{a:1,n:'Phosphorus'}],out:3,prod:'Probital'},
+  {i:[{a:30,n:'Acetone'},{a:30,n:'Copper'},{a:30,n:'Phosphorus'}],out:90,n:3},
+  null,null,'Precursor for SalicylicAcid. OD causes vomit and heavy slowdown (65% speed).'),
+
+C('pre','THERMITE','PRE · no OD',null,
+  {r:[{a:1,n:'Iron'},{a:1,n:'Aluminium'},{a:1,n:'Oxygen'}],out:3,prod:'Thermite'},
+  {i:[{a:30,n:'Iron'},{a:30,n:'Aluminium'},{a:30,n:'Oxygen'}],out:90,n:3},
+  null,null,'Precursor for Pyroxadone (hot pod). Flammable — handle carefully.'),
+
+C('pre','UNSTABLEMUTAGEN','PRE · no OD',null,
+  {r:[{a:1,n:'Radium'},{a:1,n:'Phosphorus'},{a:1,n:'Chlorine'}],out:3,prod:'UnstableMutagen'},
+  {i:[{a:30,n:'Radium'},{a:30,n:'Phosphorus'},{a:30,n:'Chlorine'}],out:90,n:3},
+  null,null,'Precursor for Doxarubixadone and Natusixadone.'),
+
+C('pre','CRYOXADONE','PRE · no OD',null,
+  {r:[{a:1,n:'Dexalin',no:'(pre-made)'},{a:1,n:'Water'},{a:1,n:'Oxygen'}],out:3,prod:'Cryoxadone'},
+  {i:[{a:30,n:'Dexalin'},{a:30,n:'Water'},{a:30,n:'Oxygen'}],out:90,n:3},
+  null,null,'Core cryo med. Also precursor for Necrosol, Aloxadone, and Doxarubixadone.'),
 ].join('');
 
-// ═══ BRUTE ═══
-document.getElementById('content-brute').innerHTML=
+// ══════════════════════════════════════
+// BRUTE
+// ══════════════════════════════════════
+document.getElementById('c-brute').innerHTML=
 SH('T1 — Generic','first')+
 '<div class="grid">'+
 C('brute','LIBITAL','LIB · Brute · OD 20',
-  'Heals <strong>general Brute −1.2/tick</strong>. Metabolism 0.2/s. Base for all Brute T2. OD → Heat + Jitter.',
-  {r:[{a:1,n:'Nitrogen'},{a:1,n:'Oil',note:'(WF+H+C → ×4)'},{a:1,n:'Oxygen'}],out:3,prod:'Libital'},
+  'Heals <strong>Brute -1.2 per tick</strong> (0.2/s). OD at 20u: Heat +1/tick + Jitter.',
+  {r:[{a:1,n:'Nitrogen'},{a:1,n:'Oil',no:'(synth)'},{a:1,n:'Oxygen'}],out:3,prod:'Libital'},
   {i:[{a:30,n:'Nitrogen'},{a:30,n:'Oil'},{a:30,n:'Oxygen'}],out:90,n:3},
-  'LIB · Brute · OD 20 · max 15u/shot',null,null)+
-C('brute','TRICORDRAZINE','TRICORD · Multi · no OD',
-  'Heals <strong>Brute −0.9 · Poison −0.3 · Heat −0.3 · Shock −0.3 · Cold −0.3</strong> (only below 40u total dmg). Weak but covers everything.',
-  {r:[{a:1,n:'Inaprovaline',note:'(pre-made)'},{a:1,n:'Multiver',note:'(pre-made)'}],out:2,prod:'Tricordrazine'},
-  {i:[{a:50,n:'Inaprovaline'},{a:50,n:'Multiver'}],out:100,n:2},
-  'TRICORD · Multi · no OD · 15u/shot',null,
-  'Good when you don\'t know what the patient has. No OD risk.')+
+  'LIB · Brute · OD 20 · max 15u/shot')+
+C('brute','PROBITAL','PROBI · Brute · OD 20',
+  'Heals <strong>Brute -1.8 per tick</strong> (0.2/s) — stronger than Libital. <strong>Always reduces movement speed by 30%</strong> regardless of dose. OD at 20u: vomit + 65% slowdown. Pairs well with Libital — combined they alternate ticks for faster overall healing.',
+  {r:[{a:1,n:'Acetone'},{a:1,n:'Copper'},{a:1,n:'Phosphorus'}],out:3,prod:'Probital'},
+  {i:[{a:30,n:'Acetone'},{a:30,n:'Copper'},{a:30,n:'Phosphorus'}],out:90,n:3},
+  'PROBI · Brute · OD 20 · max 15u/shot',null,
+  'Always slows movement by 30% even below OD. Reserve for critical Brute cases where speed of movement matters less.')+
 '</div>'+
 SH('T2 — Specific')+
 '<div class="grid">'+
-C('brute','BRUIZINE','BRUIZ · Blunt · OD 10',
-  'Heals <strong>Blunt −1/tick</strong>. Metabolism 0.2/s. For blunt trauma (beatings, explosions). OD → Poison ×3 + Jitter.',
-  {r:[{a:1,n:'Libital',note:'(pre-made)'},{a:0.9,n:'Lithium'},{a:1,n:'Sugar'}],out:2,prod:'Bruizine'},
-  {i:[{a:30,n:'Libital'},{a:30,n:'Lithium',s:'(3u surplus stays in beaker)'},{a:30,n:'Sugar'}],out:60,n:4,
-   surplus:'Lithium ratio is 0.9 — 3u stays in beaker harmlessly.'},
-  'BRUIZ · Blunt · OD 10 · 1 shot max',
-  '⚠ Very low OD. Max 1×10u shot per patient. Always coordinate with other medics.',null)+
-C('brute','LACERINOL','LACE · Slash · OD 12',
-  'Heals <strong>Slash −1/tick</strong>. Metabolism 0.2/s. For cuts, lacerations, sword wounds. OD → Cold ×3.',
-  {r:[{a:1,n:'Libital',note:'(pre-made)'},{a:1,n:'Benzene',note:'(H+C, 310K → ×1)'}],out:2,prod:'Lacerinol',temp:'335K'},
+C('brute','BRUIZINE','BRUIZ · Blunt · OD 10.5 · 5u',
+  'Heals <strong>Blunt -1 per tick</strong> (0.2/s). OD at 10.5u: Poison +3/tick + Jitter.',
+  {r:[{a:1,n:'Libital',no:'(pre-made)'},{a:0.9,n:'Lithium'},{a:1,n:'Sugar'}],out:2,prod:'Bruizine'},
+  {i:[{a:30,n:'Libital'},{a:30,n:'Lithium',s:'(3u surplus stays in beaker)'},{a:30,n:'Sugar'}],out:60,n:4,surplus:'Li ratio is 0.9 — 3u stays in beaker, harmless.'},
+  'BRUIZ · Blunt · OD 10.5 · set syringe to 5u',
+  'OD is 10.5u. Set syringe transfer to 5u. Max 2 shots before checking levels.')+
+C('brute','LACERINOL','LACE · Slash · OD 12 · 10u',
+  'Heals <strong>Slash -1 per tick</strong> (0.2/s). OD at 12u: Cold +3/tick.',
+  {r:[{a:1,n:'Libital',no:'(pre-made)'},{a:1,n:'Benzene',no:'(H+C 310K)'}],out:2,prod:'Lacerinol',temp:'335K'},
   {i:[{a:50,n:'Libital'},{a:50,n:'Benzene'}],out:100,n:2,temp:'335K'},
-  'LACE · Slash · OD 12 · max 10u/shot',null,null)+
-C('brute','PUNCTURASE','PUNCT · Pierce · OD 11',
-  'Heals <strong>Pierce −1/tick</strong>. Metabolism 0.2/s. For bullets, stabs. Causes minor Blunt always. OD → Blunt ×3.',
-  {r:[{a:1,n:'Libital',note:'(pre-made)'},{a:1,n:'Hydroxide',note:'(O+H, 310K → ×2)'}],out:2,prod:'Puncturase',temp:'325K'},
+  'LACE · Slash · OD 12 · set syringe to 10u')+
+C('brute','PUNCTURASE','PUNCT · Pierce · OD 11 · 10u',
+  'Heals <strong>Pierce -1 per tick</strong> (0.2/s). Always causes Blunt +0.1/tick. OD at 11u: Blunt +3/tick.',
+  {r:[{a:1,n:'Libital',no:'(pre-made)'},{a:1,n:'Hydroxide',no:'(O+H 310K)'}],out:2,prod:'Puncturase',temp:'325K'},
   {i:[{a:50,n:'Libital'},{a:50,n:'Hydroxide'}],out:100,n:2,temp:'325K'},
-  'PUNCT · Pierce · OD 11 · max 10u/shot',null,null)+
-C('brute','SALICYLICACID','SAL · Brute+ · OD 15',
-  'Heals <strong>Brute −0.6</strong> (dmg &lt;30) or <strong>−2.4</strong> (dmg &gt;30). Scales with damage. OD → Burn ×2 + Pierce 0.5 + Jitter.',
-  {r:[{a:1,n:'Phenol',note:'(pre-made)'},{a:1,n:'Probital',note:'(Acetone+Cu+P → ×3)'},{a:1,n:'SulfuricAcid',note:'(pre-made)'},{a:1,n:'Carbon'}],out:4,prod:'SalicylicAcid'},
+  'PUNCT · Pierce · OD 11 · set syringe to 10u')+
+C('brute','SALICYLICACID','SAL · Brute+ · OD 15.5 · 15u',
+  'Heals <strong>Brute -0.6/tick</strong> (dmg &lt;30) or <strong>-2.4/tick</strong> (dmg &gt;30) (0.2/s). Scales with damage. OD at 15.5u: Burn +2/tick, continues healing Brute.',
+  {r:[{a:1,n:'Phenol',no:'(pre-made)'},{a:1,n:'Probital',no:'(pre-made)'},{a:1,n:'SulfuricAcid',no:'(pre-made)'},{a:1,n:'Carbon'}],out:4,prod:'SalicylicAcid'},
   {i:[{a:25,n:'Phenol'},{a:25,n:'Probital'},{a:25,n:'SulfuricAcid'},{a:25,n:'Carbon'}],out:100,n:2},
-  'SAL · Brute+ · OD 15 · max 15u/shot',null,null)+
-'</div>'+
-SH('Advanced')+
-'<div class="grid">'+
-C('brute','RAZORIUM','RAZ · Brute mix · no OD',
-  'Strong general <strong>Brute heal</strong>. Combine any 2 Brute T2 meds. No OD of its own.',
-  {r:[{a:1,n:'Any Brute T2'},{a:1,n:'Any other Brute T2'}],out:1,prod:'Razorium'},
-  {i:[{a:50,n:'Lacerinol',s:'(or any T2 brute)'},{a:50,n:'Bruizine',s:'(or any T2 brute)'}],out:50,n:4},
-  null,'⚠ Only 1u output per 2u input (ratio 0.5). Mix 1:1 with Libital in jug.',null)+
+  'SAL · Brute+ · OD 15.5 · 15u/shot — 1 shot limit')+
 '</div>'+
 SH('Recommended Mixes','mix')+
 '<div class="grid">'+
-MIX('Brute + Slash','MIX · Sword/knife wounds',
-  'Best for sword fights, knife wounds, or any Slash-heavy trauma. Libital handles general Brute while Lacerinol targets the specific slash damage.',
-  [{u:100,n:'Libital',e:'Brute −1.2/tick'},{u:100,n:'Lacerinol',e:'Slash −1/tick'}],
-  'LIB+LACE · Brute+Slash · OD 12 · 7.5u each per 15u shot',null)+
-MIX('Brute + Pierce','MIX · Gunshot wounds',
-  'For gunfights and stabbing injuries. Libital handles the general trauma, Puncturase targets pierce damage.',
-  [{u:100,n:'Libital',e:'Brute −1.2/tick'},{u:100,n:'Puncturase',e:'Pierce −1/tick'}],
-  'LIB+PUNCT · Brute+Pierce · OD 11 · 7.5u each per 15u shot',null)+
-MIX('Brute + Bleed','MIX · Open trauma / bleeding',
-  'For wounds with active bleeding — melee hits, shrapnel, surgery complications. Libital handles tissue damage, TranexamicAcid stops blood loss, Saline restores blood volume.',
-  [{u:70,n:'Libital',e:'Brute −1.2/tick'},{u:65,n:'TranexamicAcid',e:'Bleed −1.5'},{u:65,n:'Saline',e:'Blood +6'}],
-  'LIB+TREX+SAL · Trauma · OD 15 Trex · 5u each per 15u shot',
-  '⚠ TranexamicAcid OD 15u. With 3 chems at 5u each per shot, max 3 shots before checking levels.')+
-MIX('Brute + Stabilize','MIX · Emergency kit',
-  'General trauma + critical stabilizer. Libital heals Brute while Inaprovaline activates in Critical to prevent death and reduces bleeding. Good all-purpose medic jug.',
-  [{u:100,n:'Libital',e:'Brute −1.2/tick'},{u:100,n:'Inaprovaline',e:'Asphyx −3 (crit) · Bleed −0.25'}],
-  'LIB+INAP · Trauma+Crit · OD 20 · 7.5u each per 15u shot',null)+
+M('mix','Brute T1 Combo','MIX · Libital + Probital',
+  'Both T1 Brute generics in one jug. SS14 processes one chem per tick — having both means they alternate, covering Brute more consistently. Libital -1.2/tick, Probital -1.8/tick. Note: Probital always causes 30% movement slowdown even below OD.',
+  [{u:100,n:'Libital',e:'Brute -1.2/tick · OD 20'},{u:100,n:'Probital',e:'Brute -1.8/tick · OD 20 · always 30% slow'}],
+  'LIB+PROBI · Brute T1 · OD 20 · 7.5u each per 15u shot',
+  'Probital always causes 30% movement slowdown. Use when the patient is stationary or speed is not a priority.')+
+M('mix','Brute General','MIX · All Brute',
+  'Libital for general coverage. SalicylicAcid scales to -2.4/tick on heavy trauma. Combined -3.6/tick when damage above 30. ~11s to heal 200 Brute.',
+  [{u:100,n:'Libital',e:'Brute -1.2/tick'},{u:100,n:'SalicylicAcid',e:'-0.6 or -2.4/tick (dmg>30)'}],
+  'LIB+SAL · Brute · OD 15.5 SAL · 7.5u each per 15u shot',
+  'SalicylicAcid OD 15.5u. Max 2 shots before checking levels.')+
+M('mix','Gunshot / Stab','MIX · Pierce trauma',
+  'For bullets, stabs, and pierce wounds. Libital covers general Brute. Puncturase targets Pierce specifically. Puncturase always causes minor Blunt side effect — Libital compensates.',
+  [{u:100,n:'Libital',e:'Brute -1.2/tick'},{u:100,n:'Puncturase',e:'Pierce -1/tick · Blunt +0.1 side'}],
+  'LIB+PUNCT · Brute+Pierce · OD 11 PUNCT · 7.5u LIB + 7.5u PUNCT per 15u — PUNCT may OD, use 10u syringe',null)+
+M('mix','Sword / Melee','MIX · Slash trauma',
+  'For sword fights, knives, and sharp melee. Libital covers general Brute. Lacerinol targets Slash specifically.',
+  [{u:100,n:'Libital',e:'Brute -1.2/tick'},{u:100,n:'Lacerinol',e:'Slash -1/tick'}],
+  'LIB+LACE · Brute+Slash · OD 12 LACE · 7.5u LIB + 7.5u LACE per 15u — LACE may OD, use 10u syringe',null)+
 '</div>';
 
-// ═══ BURN ═══
-document.getElementById('content-burn').innerHTML=
+// ══════════════════════════════════════
+// BURN
+// ══════════════════════════════════════
+document.getElementById('c-burn').innerHTML=
 SH('T1 — Generic','first')+
 '<div class="grid">'+
 C('burn','AIURI','AIU · Burn · OD 20',
-  'Heals <strong>Heat −0.4 · Cold −0.4 · Shock −0.4</strong>/tick. Metabolism 0.2/s. Covers all thermal types. OD → Blunt ×1 + Jitter.',
-  {r:[{a:1,n:'WeldingFuel'},{a:1,n:'Ammonia',note:'(H×3+N → ×4)'},{a:1,n:'Hydrogen'}],out:3,prod:'Aiuri'},
+  'Heals <strong>Heat -0.4 · Cold -0.4 · Shock -0.4 per tick</strong> (0.2/s). OD at 20u: Blunt +1/tick + Jitter. Pairs well with Lenturi — both cover all three burn types and alternate ticks in the same jug.',
+  {r:[{a:1,n:'WeldingFuel'},{a:1,n:'Ammonia',no:'(synth)'},{a:1,n:'Hydrogen'}],out:3,prod:'Aiuri'},
   {i:[{a:30,n:'WeldingFuel'},{a:30,n:'Ammonia'},{a:30,n:'Hydrogen'}],out:90,n:3},
-  'AIU · Burn · OD 20 · max 15u/shot',null,null)+
+  'AIU · Burn · OD 20 · max 15u/shot')+
 C('burn','LENTURI','LEN · Burn · OD 20',
-  'Heals <strong>Heat −0.6 · Shock −0.6 · Cold −0.6</strong> (only below 20u in system). Slightly stronger than Aiuri. OD → Jitter + heavy thirst.',
-  {r:[{a:1,n:'SulfuricAcid',note:'(pre-made)'},{a:1,n:'Chlorine'},{a:1,n:'Oxygen'}],out:3,prod:'Lenturi'},
+  'Heals <strong>Heat -0.6 · Shock -0.6 · Cold -0.6 per tick</strong> (0.2/s), only while below 20u in bloodstream. OD at 20u: Jitter + drains thirst -3/tick. Pairs well with Aiuri — both cover all three burn types and alternate ticks.',
+  {r:[{a:1,n:'SulfuricAcid',no:'(synth)'},{a:1,n:'Chlorine'},{a:1,n:'Oxygen'}],out:3,prod:'Lenturi'},
   {i:[{a:30,n:'SulfuricAcid'},{a:30,n:'Chlorine'},{a:30,n:'Oxygen'}],out:90,n:3},
-  'LEN · Burn · OD 20 · max 15u/shot',null,null)+
+  'LEN · Burn · OD 20 · max 15u/shot')+
 '</div>'+
 SH('T2 — Specific')+
 '<div class="grid">'+
-C('burn','OXANDROLONE','OXA · Burn+ · OD 15',
-  'Heals <strong>−0.2/tick</strong> (dmg &lt;30) or <strong>−0.8/tick</strong> (dmg &gt;30). Scales with patient damage. OD → Blunt ×2 + Pierce 0.5 + Jitter.',
-  {r:[{a:1,n:'Phenol',note:'(pre-made)'},{a:2,n:'Carbon'},{a:1,n:'Lenturi',note:'(pre-made)'}],out:4,prod:'Oxandrolone'},
+C('burn','OXANDROLONE','OXA · Burn+ · OD 15.5 · 15u',
+  'Heals Heat/Shock/Cold <strong>-0.2/tick</strong> (dmg &lt;30) or <strong>-0.8/tick</strong> (dmg &gt;30) (0.2/s). Scales with total damage. OD at 15.5u: continues healing burn, adds Blunt +2 + Piercing +0.5/tick + Jitter.',
+  {r:[{a:1,n:'Phenol',no:'(pre-made)'},{a:2,n:'Carbon'},{a:1,n:'Lenturi',no:'(pre-made)'}],out:4,prod:'Oxandrolone'},
   {i:[{a:25,n:'Phenol'},{a:50,n:'Carbon'},{a:25,n:'Lenturi'}],out:100,n:2},
-  'OXA · Burn+ · OD 15 · max 10u/shot',null,null)+
-C('burn','INSUZINE','INSU · Shock · OD 12',
-  'Heals <strong>Shock −2/tick</strong>. Clears Licoxide and Tazinide (taser chems). Lowers body temp slightly. OD → Cold ×2 + Jitter + freeze.',
-  {r:[{a:1,n:'Leporazine',note:'(pre-made)'},{a:1,n:'Aiuri',note:'(pre-made)'},{a:1,n:'Silicon'}],out:3,prod:'Insuzine',temp:'433K'},
-  {i:[{a:30,n:'Leporazine'},{a:30,n:'Aiuri'},{a:30,n:'Silicon'}],out:90,n:3,temp:'433K'},
-  'INSU · Shock · OD 12 · max 10u/shot',null,
-  'Specialized for electrical damage and taser victims. Clears taser residue chems.')+
+  'OXA · Burn+ · OD 15.5 · 15u/shot — 1 shot limit')+
 C('burn','PYRAZINE','PYRA · Heat · OD 20',
-  'Heals <strong>Heat −1/tick</strong>. Best single-type burn med. OD → Slash + Pierce bleeding + Vomit + Screaming.',
-  {r:[{a:1,n:'Leporazine',note:'(pre-made)'},{a:1,n:'Aiuri',note:'(pre-made)'},{a:1,n:'Carbon'}],out:3,prod:'Pyrazine',temp:'540K'},
+  'Heals <strong>Heat -1 per tick</strong> (0.2/s). Best single-type heat healer. OD at 20u: Slash +0.5 + Piercing +0.5/tick + Vomit + Scream.',
+  {r:[{a:1,n:'Leporazine',no:'(Copper+Fersilicite+Plasma cat)'},{a:1,n:'Aiuri',no:'(pre-made)'},{a:1,n:'Carbon'}],out:3,prod:'Pyrazine',temp:'540K'},
   {i:[{a:30,n:'Leporazine'},{a:30,n:'Aiuri'},{a:30,n:'Carbon'}],out:90,n:3,temp:'540K'},
-  'PYRA · Heat · OD 20 · max 15u/shot',null,
-  'For fire/plasma burns specifically. Requires 540K — needs the hot plate.')+
+  'PYRA · Heat · OD 20 · max 15u/shot',null,'Requires 540K — needs the hot plate.')+
+C('burn','INSUZINE','INSU · Shock · OD 12 · 10u',
+  'Heals <strong>Shock -2 per tick</strong> (0.2/s). Clears Licoxide and Tazinide (taser chems). Lowers body temp slightly. OD at 12u: Cold +2/tick + Jitter + extreme cooling.',
+  {r:[{a:1,n:'Leporazine',no:'(Copper+Fersilicite+Plasma cat)'},{a:1,n:'Aiuri',no:'(pre-made)'},{a:1,n:'Silicon'}],out:3,prod:'Insuzine',temp:'433K'},
+  {i:[{a:30,n:'Leporazine'},{a:30,n:'Aiuri'},{a:30,n:'Silicon'}],out:90,n:3,temp:'433K'},
+  'INSU · Shock · OD 12 · set syringe to 10u',null,'For taser victims and electrical damage. Also clears taser residue chems.')+
 '</div>'+
 SH('Recommended Mixes','mix')+
 '<div class="grid">'+
-MIX('Burn General','MIX · All thermal damage',
-  'Maximum thermal coverage. Both heal all three types (Heat, Cold, Shock) — combined they heal significantly faster than either alone.',
-  [{u:100,n:'Aiuri',e:'Heat/Cold/Shock −0.4/tick'},{u:100,n:'Lenturi',e:'Heat/Cold/Shock −0.6/tick'}],
+M('mix','Burn General','MIX · All thermal',
+  'Both T1 Burn generics cover Heat, Cold, and Shock. SS14 processes one chem per tick — they alternate, providing consistent burn coverage every tick. Aiuri -0.4/tick, Lenturi -0.6/tick (below 20u). OD 20u on both — very safe.',
+  [{u:100,n:'Aiuri',e:'Heat/Cold/Shock -0.4/tick'},{u:100,n:'Lenturi',e:'Heat/Cold/Shock -0.6/tick'}],
   'AIU+LEN · Burn · OD 20 · 7.5u each per 15u shot',null)+
-MIX('Burn + Critical','MIX · Severe burns',
-  'For heavily burned patients. Lenturi provides steady healing while Oxandrolone scales up its effect when damage exceeds 30 — most useful on critical burn cases.',
-  [{u:100,n:'Lenturi',e:'Heat/Cold/Shock −0.6/tick'},{u:100,n:'Oxandrolone',e:'−0.2 or −0.8/tick (scales)'}],
-  'LEN+OXA · Burn+ · OD 15 · 7.5u each per 15u shot',null)+
+M('mix','Burn Severe','MIX · Heavy burns',
+  'For heavily burned patients. Lenturi provides steady coverage. Oxandrolone scales to -0.8/tick when damage exceeds 30. Combined -1.4/tick on heavy damage.',
+  [{u:100,n:'Lenturi',e:'Heat/Cold/Shock -0.6/tick'},{u:100,n:'Oxandrolone',e:'-0.2 or -0.8/tick (dmg>30)'}],
+  'LEN+OXA · Burn+ · OD 15 OXA · 7.5u each per 15u shot',
+  'Oxandrolone OD 15.5u. Max 2 shots of 15u. Get severe patients to cryo.')+
 '</div>';
 
-// ═══ POISON ═══
-document.getElementById('content-poison').innerHTML=
+// ══════════════════════════════════════
+// POISON
+// ══════════════════════════════════════
+document.getElementById('c-poison').innerHTML=
 SH('T1 — Generic','first')+
 '<div class="grid">'+
 C('poison','MULTIVER','MULTI · Poison · OD 20',
-  'Heals <strong>Poison −1/tick</strong>. Metabolism 0.2/s. Also reduces plant toxins. OD → Caustic ×2 + Jitter.',
-  {r:[{a:1,n:'TableSalt',note:'(Cl+Na, 370K → ×2)'},{a:1,n:'Oil',note:'(WF+H+C → ×4)'},{a:1,n:'Silicon'}],out:3,prod:'Multiver'},
+  'Heals <strong>Poison -1 per tick</strong> (0.2/s). OD at 20u: Caustic +2/tick + Jitter. Also reduces plant toxins.',
+  {r:[{a:1,n:'TableSalt',no:'(synth)'},{a:1,n:'Oil',no:'(synth)'},{a:1,n:'Silicon'}],out:3,prod:'Multiver'},
   {i:[{a:30,n:'TableSalt'},{a:30,n:'Oil'},{a:30,n:'Silicon'}],out:90,n:3},
-  'MULTI · Poison · OD 20 · max 15u/shot',null,null)+
+  'MULTI · Poison · OD 20 · max 15u/shot')+
 '</div>'+
 SH('T2 — Specific')+
 '<div class="grid">'+
-C('poison','PENTETICACID','PENT · Poison+ · OD 15',
-  'Heals <strong>Poison −3/tick</strong> and clears bloodstream ×2. Metabolism 0.4/s. Very powerful. OD → Caustic ×3 + Jitter + Vomit.',
-  {r:[{a:1,n:'Multiver',note:'(pre-made)'},{a:1,n:'Silicon'},{a:1,n:'Oil',note:'(pre-made)'},{a:1,n:'Plasma'},{a:1,n:'Ethanol'}],out:5,prod:'PenteticAcid'},
+C('poison','PENTETICACID','PENT · Poison+ · OD 15.5 · 15u',
+  'Heals <strong>Poison -3 per tick</strong> (0.4/s). Purges bloodstream x2 per tick. OD at 15.5u: Caustic +3/tick + Jitter + Vomit + Scream.',
+  {r:[{a:1,n:'Multiver',no:'(pre-made)'},{a:1,n:'Silicon'},{a:1,n:'Oil',no:'(pre-made)'},{a:1,n:'Plasma'},{a:1,n:'Ethanol'}],out:5,prod:'PenteticAcid'},
   {i:[{a:20,n:'Multiver'},{a:20,n:'Silicon'},{a:20,n:'Oil'},{a:20,n:'Plasma'},{a:20,n:'Ethanol'}],out:100,n:2},
-  'PENT · Poison+ · OD 15 · max 10u/shot',null,null)+
-C('poison','STELLIBININ','STELL · Poison · no OD',
-  'Heals <strong>Poison −3/tick</strong>. Also directly destroys <strong>Amatoxin</strong> (mushroom/plant poison). No OD.',
-  {r:[{a:1,n:'Aloe',note:'(botanical)'},{a:1,n:'Stellibinin',note:'(botanical)'}],out:2,prod:'Siderlac'},
-  {i:[{a:50,n:'Aloe'},{a:50,n:'Stellibinin'}],out:100,n:2},
-  'STELL · Poison+Amatoxin · no OD · 15u/shot',null,
-  'Obtained from botanical sources, not the dispenser. Exceptionally effective against mushroom/plant poisons.')+
-C('poison','DIPHENHYDRAMINE','DIPH · Histamine · no OD',
-  'Removes <strong>Histamine −3</strong>, heals <strong>Poison −3</strong>, and clears Jitter. Causes mild drowsiness. For allergic reactions.',
-  {r:[{a:1,n:'Diethylamine',note:'(Amm+Eth → ×2)'},{a:1,n:'Oil',note:'(pre-made)'},{a:1,n:'TableSalt',note:'(pre-made)'},{a:1,n:'Carbon'},{a:1,n:'Ethanol'}],out:3,prod:'Diphenhydramine',temp:'377K'},
-  {i:[{a:20,n:'Diethylamine'},{a:20,n:'Oil'},{a:20,n:'TableSalt'},{a:20,n:'Carbon'},{a:20,n:'Ethanol'}],out:60,n:4,temp:'377K'},
-  'DIPH · Histamine · no OD · 15u/shot',null,
-  'For histamine reactions and allergic crises. Causes drowsiness as a side effect.')+
+  'PENT · Poison+ · OD 15.5 · 15u/shot — 1 shot limit')+
 '</div>'+
 SH('Recommended Mixes','mix')+
 '<div class="grid">'+
-MIX('Poison Cleanse','MIX · Heavy poisoning',
-  'For severe poisoning cases. Multiver keeps up steady detox while PenteticAcid aggressively clears the bloodstream. Combined effect: Poison −4/tick + double bloodstream cleanse.',
-  [{u:100,n:'Multiver',e:'Poison −1/tick'},{u:100,n:'PenteticAcid',e:'Poison −3/tick · clears bloodstream ×2'}],
-  'MULTI+PENT · Poison · OD 15 · 7.5u each per 15u shot',null)+
+M('mix','Poison Cleanse','MIX · Heavy poisoning',
+  'Multiver keeps steady detox. PenteticAcid aggressively purges the bloodstream. Combined -4/tick Poison + bloodstream purge.',
+  [{u:100,n:'Multiver',e:'Poison -1/tick'},{u:100,n:'PenteticAcid',e:'Poison -3/tick · purges bloodstream x2'}],
+  'MULTI+PENT · Poison · OD 15 PENT · 7.5u each per 15u shot',
+  'PenteticAcid OD 15.5u. Max 2 shots of 15u.')+
 '</div>';
 
-// ═══ RAD ═══
-document.getElementById('content-rad').innerHTML=
+// ══════════════════════════════════════
+// RAD
+// ══════════════════════════════════════
+document.getElementById('c-rad').innerHTML=
 SH('T1 — Generic','first')+
 '<div class="grid">'+
-C('rad','POTASSIUMIODIDE','KI · Rad shield · OD 20',
-  'Provides <strong>radiation protection for 2s/tick</strong>. Precursor for Hyronalin. OD → Poison ×1.',
-  {r:[{a:1,n:'Potassium'},{a:1,n:'Iodine'}],out:2,prod:'PotassiumIodide'},
-  {i:[{a:50,n:'Potassium'},{a:50,n:'Iodine'}],out:100,n:2},
-  'KI · Rad shield · OD 20 · max 15u/shot',null,null)+
 C('rad','HYRONALIN','HYRO · Rad · OD 20',
-  'Heals <strong>Radiation −0.5/tick</strong>. Metabolism 0.2/s. Causes light Vomit baseline. OD → Heat ×1.5 + Jitter.',
-  {r:[{a:1,n:'Radium'},{a:1,n:'PotassiumIodide',note:'(K+I → ×2)'}],out:2,prod:'Hyronalin'},
+  'Heals <strong>Radiation -0.5 per tick</strong> (0.2/s). 2% vomit chance per tick always. OD at 20u: Heat +1.5/tick. Jitter at 30u.',
+  {r:[{a:1,n:'Radium'},{a:1,n:'PotassiumIodide',no:'(K+I synth)'}],out:2,prod:'Hyronalin'},
   {i:[{a:50,n:'Radium'},{a:50,n:'PotassiumIodide'}],out:100,n:2},
-  'HYRO · Rad · OD 20 · max 15u/shot',null,null)+
+  'HYRO · Rad · OD 20 · max 15u/shot')+
 '</div>'+
-SH('T2 — Specific')+
+SH('T2 — Advanced')+
 '<div class="grid">'+
 C('rad','ARITHRAZINE','ARITH · Rad+ · no OD',
-  'Heals <strong>Radiation −2/tick</strong>. 4× stronger than Hyronalin. <strong>Always causes Brute +0.2/tick</strong> even without OD — must pair with Libital.',
-  {r:[{a:1,n:'Hyronalin',note:'(pre-made)'},{a:1,n:'Hydrogen'}],out:2,prod:'Arithrazine'},
+  'Heals <strong>Radiation -2 per tick</strong> (0.2/s). 4x stronger than Hyronalin. <strong>Always causes Brute +0.2/tick</strong> as permanent side effect — no OD threshold.',
+  {r:[{a:1,n:'Hyronalin',no:'(pre-made)'},{a:1,n:'Hydrogen'}],out:2,prod:'Arithrazine'},
   {i:[{a:50,n:'Hyronalin'},{a:50,n:'Hydrogen'}],out:100,n:2},
-  null,'⚠ Always causes Brute 0.2/tick as a side effect. NEVER use alone — always pair with Libital.',null)+
+  null,'Always causes Brute +0.2/tick. Always pair with Libital in jug.')+
+C('rad','PHALANXIMINE','PHAL · Cellular · no OD',
+  'Heals <strong>Cellular -1 per tick</strong> (0.4/s). <strong>Always causes Radiation +1/tick</strong> as permanent side effect. 5% vomit chance always.',
+  {r:[{a:1,n:'Hyronalin',no:'(pre-made)'},{a:1,n:'Ethanol'},{a:1,n:'UnstableMutagen',no:'(synth)'}],out:3,prod:'Phalanximine'},
+  {i:[{a:30,n:'Hyronalin'},{a:30,n:'Ethanol'},{a:30,n:'UnstableMutagen'}],out:90,n:3},
+  null,'Always causes Radiation +1/tick. Only use when Cellular damage is the priority and Rad can be managed separately.')+
 '</div>'+
 SH('Recommended Mixes','mix')+
 '<div class="grid">'+
-MIX('Rad Basic','MIX · Radiation exposure',
-  'For moderate radiation exposure. Hyronalin handles rad damage while KI extends protection window.',
-  [{u:100,n:'Hyronalin',e:'Rad −0.5/tick'},{u:100,n:'PotassiumIodide',e:'Rad protection 2s/tick'}],
-  'HYRO+KI · Rad · OD 20 · 7.5u each per 15u shot',null)+
-MIX('Rad Advanced + Brute','MIX · Severe rad exposure',
-  'For severe radiation. Arithrazine is 4× stronger but always causes Brute damage — Libital completely compensates this side effect. Net result: Rad −2/tick, zero Brute cost.',
-  [{u:100,n:'Arithrazine',e:'Rad −2/tick · Brute +0.2 (side effect)'},{u:100,n:'Libital',e:'Brute −1.2/tick (compensates)'}],
-  'ARITH+LIB · Rad+ · OD 20 Lib · 7.5u each per 15u shot',
-  '⚠ The Libital in this mix compensates the Brute side effect of Arithrazine. Do not skip it.')+
+M('mix','Rad + Brute Compensated','MIX · Severe rad',
+  'Arithrazine heals Rad -2/tick but always causes Brute +0.2/tick. Libital at 25% compensates fully (net Brute: -1.0/tick). No need for equal ratio.',
+  [{u:150,n:'Arithrazine',e:'Rad -2/tick · Brute +0.2 side effect'},{u:50,n:'Libital',e:'Brute -1.2/tick · compensates side effect'}],
+  'ARITH+LIB 3:1 · Rad · OD 20 LIB · ~11u Arith + ~4u LIB per 15u shot',
+  'Libital at 25% easily covers the Arithrazine side effect. Net Brute: -1.0/tick.')+
 '</div>';
 
-// ═══ OXY ═══
-document.getElementById('content-oxy').innerHTML=
+// ══════════════════════════════════════
+// OXY
+// ══════════════════════════════════════
+document.getElementById('c-oxy').innerHTML=
 SH('T1 — Generic','first')+
 '<div class="grid">'+
 C('oxy','DEXALIN','DEX · Oxy · OD 20',
-  'Heals <strong>Airloss −2/tick</strong>. Metabolism 0.2/s. Key precursor for Cryoxadone and Salbutamol. OD → Asphyx ×2 + Cold ×1.',
+  'Heals <strong>Airloss -2 per tick</strong> (0.2/s). Precursor for Cryoxadone and Salbutamol. OD at 20u: Asphyxiation +2/tick + Cold +1/tick.',
   {r:[{a:2,n:'Oxygen'},{a:1,n:'Plasma',cat:true}],out:3,prod:'Dexalin'},
-  {i:[{a:25,n:'Plasma',s:'(stays, not consumed)'},{a:50,n:'Oxygen'}],out:75,n:3},
-  'DEX · Oxy · OD 20 · max 15u/shot',null,
-  'Plasma catalyst — stays in beaker every batch. Add once, then only Oxygen.')+
+  {i:[{a:25,n:'Plasma',s:'(stays)'},{a:50,n:'Oxygen'}],out:75,n:3},
+  'DEX · Oxy · OD 20 · max 15u/shot',null,'Plasma is added once and stays. Use the ChemMaster to separate Plasma from Dexalin before transferring to jug, or accept a trace amount of Plasma in the jug (generally harmless).')+
 C('oxy','INAPROVALINE','INAP · Oxy crit · no OD',
-  'Heals <strong>Asphyx −3</strong> only in Critical. Reduces bleeding −0.25. Precursor for Salbutamol and TranexamicAcid.',
+  'Always reduces bleeding <strong>-0.25/tick</strong>. In Critical state: also heals <strong>Asphyxiation -3/tick</strong> (0.2/s). Precursor for Salbutamol and TranexamicAcid.',
   {r:[{a:1,n:'Oxygen'},{a:1,n:'Carbon'},{a:1,n:'Sugar'}],out:3,prod:'Inaprovaline'},
   {i:[{a:30,n:'Oxygen'},{a:30,n:'Carbon'},{a:30,n:'Sugar'}],out:90,n:3},
-  'INAP · Oxy Crit · no OD · 15u/shot',null,null)+
+  'INAP · Oxy crit · no OD · 15u/shot')+
 C('oxy','SALINE','SAL · Blood · no OD',
-  'Restores <strong>blood volume +6/tick</strong>. Quenches thirst. No OD. Essential for hemorrhage treatment.',
-  {r:[{a:4,n:'Water'},{a:1,n:'TableSalt',note:'(Cl+Na, 370K → ×2)'}],out:5,prod:'Saline'},
+  'Restores <strong>blood volume +6 per tick</strong>. No OD. Injected directly.',
+  {r:[{a:4,n:'Water'},{a:1,n:'TableSalt',no:'(synth)'}],out:5,prod:'Saline'},
   {i:[{a:80,n:'Water'},{a:20,n:'TableSalt'}],out:100,n:2},
-  'SAL · Blood · no OD · 15u/shot',null,
-  'Blood restorer — does NOT heal airloss or brute. Pair with TranexamicAcid to also stop the bleeding.')+
+  'SAL · Blood · no OD · 15u/shot')+
+
 '</div>'+
-SH('T2 — Specific')+
+SH('T2 — Advanced')+
 '<div class="grid">'+
-C('oxy','SALBUTAMOL','SALB · Oxy+ · OD 15',
-  'Heals <strong>Airloss −6</strong> (dmg &gt;30) or <strong>−1</strong> (dmg &lt;30). Devastating in critical patients. OD → Genetic damage 0.2.',
-  {r:[{a:1,n:'Dexalin',note:'(pre-made)'},{a:1,n:'Inaprovaline',note:'(pre-made)'},{a:1,n:'Phenol',note:'(pre-made)'},{a:1,n:'Lithium'}],out:4,prod:'Salbutamol'},
+C('oxy','SALBUTAMOL','SALB · Oxy+ · OD 15.5 · 15u',
+  'Heals Airloss <strong>-6/tick</strong> (dmg &gt;30) or <strong>-1/tick</strong> (dmg &lt;30) (0.2/s). Devastating in critical. OD at 15.5u: continues healing, adds Genetic +0.2/tick.',
+  {r:[{a:1,n:'Dexalin',no:'(pre-made)'},{a:1,n:'Inaprovaline',no:'(pre-made)'},{a:1,n:'Phenol',no:'(pre-made)'},{a:1,n:'Lithium'}],out:4,prod:'Salbutamol'},
   {i:[{a:25,n:'Dexalin'},{a:25,n:'Inaprovaline'},{a:25,n:'Phenol'},{a:25,n:'Lithium'}],out:100,n:2},
-  'SALB · Oxy+ · OD 15 · max 10u/shot',null,null)+
-C('oxy','EPINEPHRINE','EPI · Crit only · OD 20',
-  'In Critical only: <strong>Asphyx −2 · Brute −0.3 · Burn −0.4</strong>/tick. Removes stun. Speeds movement. Clears HeartbreakerToxin (traitor poison). OD → Asphyx + Poison active.',
-  {r:[{a:1,n:'Phenol',note:'(pre-made)'},{a:1,n:'Acetone',note:'(pre-made)'},{a:1,n:'Chlorine'},{a:1,n:'Hydroxide',note:'(pre-made)'}],out:4,prod:'Epinephrine'},
+  'SALB · Oxy+ · OD 15.5 · 15u/shot — 1 shot limit')+
+C('oxy','CONVERMOL','CONV · Asphyx · no OD',
+  'Heals <strong>Asphyxiation -10 per tick</strong> (1.0/s — 5x faster than standard). Always causes <strong>Blunt +4/tick</strong> as side effect. Very fast oxy recovery at a cost.',
+  {r:[{a:1,n:'Dexalin',no:'(pre-made)'},{a:1,n:'Aluminium'},{a:1,n:'Fluorine'}],out:3,prod:'Convermol'},
+  {i:[{a:30,n:'Dexalin'},{a:30,n:'Aluminium'},{a:30,n:'Fluorine'}],out:90,n:3},
+  null,'Always causes Blunt +4/tick. Must pair with Libital or Probital. Use for rapid asphyxiation emergencies only.')+
+C('oxy','EPINEPHRINE','EPI · Crit only · OD 20 · 15u',
+  'In Critical AND below 20u: heals <strong>Asphyx -2 · Poison -0.5 · Brute -0.3 · Burn -0.4/tick</strong> (0.2/s). Removes stun. +10% speed. Clears HeartbreakerToxin -2/tick. OD at 20u: Asphyx +1 + Poison +1/tick.',
+  {r:[{a:1,n:'Phenol',no:'(pre-made)'},{a:1,n:'Acetone',no:'(pre-made)'},{a:1,n:'Chlorine'},{a:1,n:'Hydroxide',no:'(pre-made)'}],out:4,prod:'Epinephrine'},
   {i:[{a:25,n:'Phenol'},{a:25,n:'Acetone'},{a:25,n:'Chlorine'},{a:25,n:'Hydroxide'}],out:100,n:2},
-  'EPI · Crit Oxy · OD 20 · 10u/shot',null,
-  'Only activates in Critical patients. Also clears HeartbreakerToxin — keep one jug in medbay always.')+
-C('oxy','TRANEXAMICACID','TREX · Bleed · OD 15',
-  'Stops bleeding <strong>−1.5/tick</strong>. OD at 15u → Bloodloss ×3 (it works against itself).',
-  {r:[{a:1,n:'Inaprovaline',note:'(pre-made)'},{a:1,n:'SulfuricAcid',note:'(pre-made)'},{a:1,n:'Sugar'}],out:3,prod:'TranexamicAcid'},
+  'EPI · Crit only · OD 20 · 10u/shot',null,'Only activates in Critical patients. No effect on stable. Always stock in medbay.')+
+C('oxy','TRANEXAMICACID','TREX · Bleed · OD 15 · 10u',
+  'Reduces bleeding <strong>-1.5 per tick</strong> (default 1/s). OD at 15u: Bloodloss +3/tick — works against itself.',
+  {r:[{a:1,n:'Inaprovaline',no:'(pre-made)'},{a:1,n:'SulfuricAcid',no:'(pre-made)'},{a:1,n:'Sugar'}],out:3,prod:'TranexamicAcid'},
   {i:[{a:30,n:'Inaprovaline'},{a:30,n:'SulfuricAcid'},{a:30,n:'Sugar'}],out:90,n:3},
-  'TREX · Bleed · OD 15 · max 10u/shot',null,
-  'Anti-hemorrhage. OD causes the opposite effect — be careful with dosing. Always pair with Saline to also restore lost blood.')+
+  'TREX · Bleed · OD 15 · set syringe to 10u (safety margin)')+
 '</div>'+
 SH('Recommended Mixes','mix')+
 '<div class="grid">'+
-MIX('Oxy General','MIX · Airloss',
-  'Standard airloss treatment. Dexalin provides steady healing while Salbutamol kicks in hard when the patient is critical.',
-  [{u:100,n:'Dexalin',e:'Airloss −2/tick'},{u:100,n:'Salbutamol',e:'Airloss −6/tick (crit) or −1'}],
-  'DEX+SALB · Oxy · OD 15 Salb · 7.5u each per 15u shot',null)+
-MIX('Critical Stabilizer','MIX · Keep them alive',
-  'For patients in Critical. Inaprovaline activates Asphyx healing in crit and reduces bleeding. Epinephrine also activates in crit, removes stun, and clears HeartbreakerToxin.',
-  [{u:100,n:'Inaprovaline',e:'Asphyx −3 (crit) · Bleed −0.25'},{u:100,n:'Epinephrine',e:'Asphyx/Brute/Burn (crit) · unstun · clears HBT'}],
-  'INAP+EPI · Crit · OD 20 EPI · 7.5u each per 15u shot',null)+
-MIX('Hemorrhage Kit','MIX · Active bleeding',
-  'For heavy blood loss. TranexamicAcid stops the bleeding while Saline restores blood volume. Combined: bleeding stops AND blood is restored simultaneously.',
-  [{u:100,n:'TranexamicAcid',e:'Bleed −1.5/tick'},{u:100,n:'Saline',e:'Blood +6/tick · thirst'}],
-  'TREX+SAL · Bleed+Blood · OD 15 Trex · 7.5u each per 15u shot',
-  '⚠ TranexamicAcid OD 15u — max 2×10u shots. Check patient bleed status before repeat dosing.')+
-MIX('Brute + Hemorrhage','MIX · Trauma with bleeding',
-  'For physical trauma that also causes bleeding (melee, explosions). Libital heals the damage, TranexamicAcid stops the bleed, Saline restores blood. Classic trauma response.',
-  [{u:70,n:'Libital',e:'Brute −1.2/tick'},{u:65,n:'TranexamicAcid',e:'Bleed −1.5/tick'},{u:65,n:'Saline',e:'Blood +6/tick'}],
-  'LIB+TREX+SAL · Trauma · OD 15 Trex · ~4-5u each per 15u shot',
-  '⚠ 3-chem mix — 5u each per 15u shot. TranexamicAcid OD 15 means max 3 shots before checking levels.')+
+M('mix','Airloss Standard','MIX · Airloss',
+  'Dexalin steady base. Salbutamol fires at -6/tick when total damage exceeds 30. Combined -8/tick on heavy damage. Heals 90 airloss in ~2s.',
+  [{u:100,n:'Dexalin',e:'Airloss -2/tick'},{u:100,n:'Salbutamol',e:'Airloss -6/tick (dmg>30) or -1/tick'}],
+  'DEX+SALB · Oxy · OD 15 SALB · 7.5u each per 15u shot',
+  'Salbutamol OD 15.5u. Max 2 shots of 15u.')+
+M('mix','Airloss + Hemorrhage','MIX · Oxy + bleed',
+  'For patients losing air AND blood simultaneously. Common after gunshots. Dexalin+Salbutamol handle airloss. Saline restores blood volume.',
+  [{u:70,n:'Dexalin',e:'Airloss -2/tick'},{u:65,n:'Salbutamol',e:'Airloss -6/tick (dmg>30)'},{u:65,n:'Saline',e:'Blood +6/tick'}],
+  'DEX+SALB+SAL · Oxy+Blood · OD 15 SALB · ~5u each per 15u shot',
+  '3-chem jug. SALB OD 15.5u — max 3 shots before checking levels.')+
+M('mix','Critical Stabilizer','MIX · Pull from crit',
+  'Both chems activate only in Critical. Epinephrine: Asphyx -2 + Brute -0.3 + Burn -0.4/tick + unstun + clears HBT. Inaprovaline: Asphyx -3/tick in crit + bleed always. Combined Asphyx: -5/tick.',
+  [{u:100,n:'Epinephrine',e:'Asphyx -2 · Brute -0.3 · Burn -0.4/tick (crit) · unstun'},{u:100,n:'Inaprovaline',e:'Asphyx -3/tick (crit) · Bleed -0.25 always'}],
+  'EPI+INAP · Crit · OD 20 EPI · 7.5u each per 15u shot',
+  'EPI only works in Critical. Has no effect on stable patients.')+
+M('mix','Hemorrhage Kit','MIX · Active bleeding',
+  'For heavy active bleeding with blood loss. TranexamicAcid stops the bleed. Saline restores volume. No airloss meds needed if patient is breathing.',
+  [{u:100,n:'TranexamicAcid',e:'Bleed -1.5/tick'},{u:100,n:'Saline',e:'Blood +6/tick'}],
+  'TREX+SAL · Bleed · OD 15 TREX · 7.5u each per 15u shot',
+  'TranexamicAcid OD 15u. Max 2 shots.')+
 '</div>';
+
+// ══════════════════════════════════════
+// TUBE
+// ══════════════════════════════════════
+document.getElementById('c-tube').innerHTML=
+SH('Cold Pod — patient below 213K','first cold')+
+'<div class="grid">'+
+C('tube','CRYOXADONE','CRYO · Universal · no OD',
+  'Heals <strong>Burn -6 · Brute -4 · Airloss -6 · Toxin -4 per tick</strong>. Only active below 213K. No OD. Most powerful healer in the game.',
+  {r:[{a:1,n:'Dexalin',no:'(pre-made)'},{a:1,n:'Water'},{a:1,n:'Oxygen'}],out:3,prod:'Cryoxadone'},
+  {i:[{a:30,n:'Dexalin'},{a:30,n:'Water'},{a:30,n:'Oxygen'}],out:90,n:3},
+  'CRYO · Universal · no OD · 15u/shot · needs patient below 213K')+
+C('tube','DOXARUBIXADONE','DOXAR · Cellular · no OD',
+  'Heals <strong>Cellular -2 per tick</strong>. Only active below 213K. No OD. Does NOT work on dead (disabled in repo).',
+  {r:[{a:1,n:'Cryoxadone',no:'(pre-made)'},{a:1,n:'UnstableMutagen',no:'(synth)'}],out:2,prod:'Doxarubixadone'},
+  {i:[{a:50,n:'Cryoxadone'},{a:50,n:'UnstableMutagen'}],out:100,n:2},
+  'DOXAR · Cellular · no OD · 15u/shot · needs below 213K')+
+C('tube','ALOXADONE','ALOX · Burn focus · no OD',
+  'Heals <strong>Heat -5 · Shock -3 · Caustic -1 per tick</strong>. Only active below 213K. No OD. Works on dead. Best for extreme thermal burn cases in cryo.',
+  {r:[{a:3,n:'Cryoxadone',no:'(pre-made)'},{a:1,n:'Aloe',no:'(external)'},{a:1,n:'Sigynate',no:'(see recipe)'}],out:5,prod:'Aloxadone'},
+  {i:[{a:60,n:'Cryoxadone'},{a:20,n:'Aloe'},{a:20,n:'Sigynate'}],out:100,n:2},
+  'ALOX · Burn focus · no OD · 15u/shot · needs below 213K',null,'Requires Aloe (external) and Sigynate. Sigynate recipe: SodiumCarbonate+SodiumHydroxide+Lenturi+Water+Sugar at 370K.')+
+C('tube','NECROSOL','NECRO · Multi · no OD',
+  'Heals <strong>Brute -4 · Burn -5 · Poison -2 per tick</strong>. Only active below 213K. No OD. Works on dead. Stack with Cryoxadone for maximum coverage.',
+  {r:[{a:3,n:'Blood',no:'(external)'},{a:1,n:'Omnizine',no:'(external)'},{a:2,n:'Cryoxadone',no:'(pre-made)'}],out:2,prod:'Necrosol',temp:'370K'},
+  {i:[{a:50,n:'Blood',s:'(3 ratio)'},{a:20,n:'Omnizine'},{a:30,n:'Cryoxadone',s:'(2 ratio)'}],out:33,n:6,temp:'370K'},
+  'NECRO · Multi/Dead · no OD · 15u/shot · needs below 213K',null,'Requires Blood (external) and Omnizine (external). Synthesis needs 370K.')+
+C('tube','OPPOROZIDONE','OPPOR · Anti-rot · no OD',
+  'Reduces rotting by <strong>+20 seconds per tick</strong>. Requires patient to be <strong>dead AND below 150K</strong>. Prevents decomposition in cryo. No OD.',
+  {r:[{a:1,n:'Cognizine',no:'(CarpoToxin+Siderlac+Acetone)',cat:true},{a:5,n:'Plasma'},{a:1,n:'Doxarubixadone',no:'(pre-made)'}],out:3,prod:'Opporozidone',temp:'400K'},
+  {i:[{a:1,n:'Cognizine',s:'(add once — stays in beaker)'},{a:50,n:'Plasma',s:'(add per batch)'},{a:10,n:'Doxarubixadone',s:'(add per batch)'}],out:30,n:7,temp:'400K'},
+  'OPPOR · Anti-rot · no OD · 15u/shot · needs dead + below 150K',null,'Cognizine is a catalyst (stays in beaker). CarpoToxin is external. Stellibinin is also external — Siderlac = Aloe+Stellibinin.')+
+'</div>'+
+SH('Hot Pod — patient above 337K','hot')+
+'<div class="grid">'+
+C('hot','PYROXADONE','PYRO · Universal · no OD',
+  'Heals <strong>Burn -6 · Brute -4 · Airloss -6 · Toxin -4 · Heat -3 per tick</strong>. Only active above 337K. No OD. Hot-pod mirror of Cryoxadone.',
+  {r:[{a:1,n:'Dexalin',no:'(pre-made)'},{a:1,n:'Thermite',no:'(Fe+Al+O synth)'},{a:1,n:'WeldingFuel'}],out:3,prod:'Pyroxadone',temp:'433K'},
+  {i:[{a:30,n:'Dexalin'},{a:30,n:'Thermite'},{a:30,n:'WeldingFuel'}],out:90,n:3,temp:'433K'},
+  'PYRO · Universal · no OD · 15u/shot · needs patient above 337K',null,'Synthesis requires 433K. Patient only needs to be above 337K to activate.')+
+C('hot','ARDTHYRNKOLE','ARDY · Cold/Shock/Caustic · no OD',
+  'Heals <strong>Cold -5 · Heat -3 · Shock -3 · Caustic -1 per tick</strong>. Only active above 343K. No OD. Works on dead.',
+  {r:[{a:1,n:'Pyroxadone',no:'(pre-made)'},{a:1,n:'Plasma',cat:true},{a:1,n:'Siderlac',no:'(Aloe+Stellibinin)'}],out:2,prod:'Ardthyrnkole'},
+  {i:[{a:1,n:'Plasma',s:'(add once — stays in beaker)'},{a:30,n:'Pyroxadone',s:'(add per batch)'},{a:30,n:'Siderlac',s:'(add per batch)'}],out:60,n:4},
+  'ARDY · Cold/Dead · no OD · 15u/shot · needs above 343K',null,'Plasma is a catalyst. Siderlac requires Aloe and Stellibinin (external).')+
+C('hot','NATUSIXADONE','NATU · Cellular · no OD',
+  'Heals <strong>Cellular -4 · Heat -3 per tick</strong>. Only active above 343K. No OD. Works on dead. Hot-pod version of Doxarubixadone.',
+  {r:[{a:1,n:'Pyroxadone',no:'(pre-made)'},{a:1,n:'UnstableMutagen',no:'(synth)'}],out:2,prod:'Natusixadone'},
+  {i:[{a:50,n:'Pyroxadone'},{a:50,n:'UnstableMutagen'}],out:100,n:2},
+  'NATU · Cellular/Dead · no OD · 15u/shot · needs above 343K')+
+C('hot','SIEVERTADONE','SIEV · Rad · no OD',
+  'Heals <strong>Radiation -4 · Heat -3 per tick</strong>. Only active above 343K. No OD. Works on dead. Best radiation healer in the game.',
+  {r:[{a:1,n:'Pyroxadone',no:'(pre-made)'},{a:2,n:'Arithrazine',no:'(pre-made)'},{a:1,n:'Ultravasculine',no:'(Histamine x2+Plasma cat)'},{a:1,n:'Fluorine',cat:true}],out:3,prod:'Sievertadone'},
+  {i:[{a:1,n:'Fluorine',s:'(add once — stays in beaker)'},{a:20,n:'Pyroxadone',s:'(add per batch)'},{a:40,n:'Arithrazine',s:'(add per batch)'},{a:20,n:'Ultravasculine',s:'(add per batch)'}],out:60,n:4},
+  'SIEV · Rad/Dead · no OD · 15u/shot · needs above 343K',null,'Fluorine is a catalyst. Ultravasculine = Histamine x2 + Plasma (catalyst).')+
+'</div>'+
+SH('Temperature Management Tips','dead')+
+'<div class="note" style="margin-bottom:16px;border-radius:3px">When a patient exits the cryo pod they have accumulated <strong>cold damage</strong> and their body is below normal temperature. When exiting the hot pod they have <strong>heat damage</strong> and are overheated. Leporazine handles both cases and also reduces Cold damage.</div>'+
+'<div class="grid">'+
+C('dead','LEPORAZINE','LEPO · Temp normalize · no OD',
+  'Heals <strong>Cold -2 per tick</strong> (0.4/s). <strong>Warms</strong> patient when below 293K. <strong>Cools</strong> when above 293K. Also removes <strong>Fresium -5 per tick</strong>. Use outside the pod to normalize temperature after treatment.',
+  {r:[{a:1,n:'Copper'},{a:1,n:'Fersilicite',no:'(Fe+Si 310K)'},{a:1,n:'Plasma',cat:true}],out:2,prod:'Leporazine'},
+  {i:[{a:1,n:'Plasma',s:'(add once — stays in beaker)'},{a:30,n:'Copper',s:'(add per batch)'},{a:30,n:'Fersilicite',s:'(add per batch)'}],out:60,n:4},
+  'LEPO · Temp normalize · no OD · 10u/shot',null,'Plasma is a catalyst. Inject 10-15u after pod exit to normalize body temperature and heal residual cold damage.')+
+'</div>';
+
+// ══════════════════════════════════════
+// SCENARIOS
+// ══════════════════════════════════════
+document.getElementById('c-scenarios').innerHTML=
+SH('General Mixes','first')+
+'<div class="grid">'+
+M('mix','General Trauma','MIX · Brute + Burns basics',
+  'The most common mix for everyday injuries. Libital (T1 Brute) covers all physical damage at -1.2/tick. Aiuri (T1 Burns) covers all thermal types at -0.4/tick. Both OD 20u — very safe together. Good default jug when you dont know what the patient has.',
+  [{u:100,n:'Libital',e:'Brute -1.2/tick · OD 20'},{u:100,n:'Aiuri',e:'Heat/Cold/Shock -0.4/tick · OD 20'}],
+  'LIB+AIU · Brute+Burns · OD 20 · 7.5u each per 15u shot',null)+
+'</div>'+
+SH('Brute')+
+'<div class="grid">'+
+M('mix','Brute Only','SCENARIO · Brute',
+  'General trauma — Libital covers all Brute. SalicylicAcid scales to -2.4/tick on heavy damage. Combined -3.6/tick when total damage above 30. Heals 200 Brute in ~11s.',
+  [{u:100,n:'Libital',e:'Brute -1.2/tick'},{u:100,n:'SalicylicAcid',e:'-0.6 or -2.4/tick (dmg>30)'}],
+  'LIB+SAL · Brute · OD 15.5 SAL · 7.5u each per 15u shot',
+  'SalicylicAcid OD 15.5u. Max 2 shots of 15u.')+
+M('mix','Brute + Pierce (Gunshot)','SCENARIO · Gunshot',
+  'For firearm wounds — bullets cause Pierce damage and active bleeding. Libital handles Brute. Puncturase targets Pierce. TranexamicAcid stops the bleed. Saline restores blood lost.',
+  [{u:60,n:'Libital',e:'Brute -1.2/tick'},{u:50,n:'Puncturase',e:'Pierce -1/tick'},{u:50,n:'TranexamicAcid',e:'Bleed -1.5/tick'},{u:40,n:'Saline',e:'Blood +6/tick'}],
+  'LIB+PUNCT+TREX+SAL · Gunshot · OD 11 PUNCT / 15 TREX · ~4u each per 15u shot',
+  '4-chem jug (~4u each per shot). PUNCT OD 11u and TREX OD 15u are most restrictive. Max 2-3 shots before checking.')+
+M('mix','Brute + Slash (Melee)','SCENARIO · Melee / sword',
+  'For bladed melee wounds. Libital handles Brute. Lacerinol targets Slash. TranexamicAcid stops bleeding from cuts. Saline restores blood.',
+  [{u:60,n:'Libital',e:'Brute -1.2/tick'},{u:50,n:'Lacerinol',e:'Slash -1/tick'},{u:50,n:'TranexamicAcid',e:'Bleed -1.5/tick'},{u:40,n:'Saline',e:'Blood +6/tick'}],
+  'LIB+LACE+TREX+SAL · Melee · OD 12 LACE / 15 TREX · ~4u each per 15u shot',
+  '4-chem jug. LACE OD 12u and TREX OD 15u most restrictive. Max 2-3 shots.')+
+'</div>'+
+SH('Burns')+
+'<div class="grid">'+
+M('mix','Burns Only — Mild/Moderate','SCENARIO · Burns (no cryo)',
+  'Aiuri and Lenturi combined -1.0/tick. No cryo needed. Good for minor-to-moderate burn cases. For 200 burn: ~40 seconds.',
+  [{u:100,n:'Aiuri',e:'Heat/Cold/Shock -0.4/tick'},{u:100,n:'Lenturi',e:'Heat/Cold/Shock -0.6/tick'}],
+  'AIU+LEN · Burn · OD 20 · 7.5u each per 15u shot',null)+
+M('mix','Burns Only — Severe (prep cryo)','SCENARIO · Heavy burns while preparing cryo',
+  'For patients with 300+ burn still outside crit. Lenturi provides coverage. Oxandrolone scales hard when damage exceeds 30. Combined -1.4/tick. Use while getting the cryo pod ready.',
+  [{u:100,n:'Lenturi',e:'Heat/Cold/Shock -0.6/tick'},{u:100,n:'Oxandrolone',e:'-0.2 or -0.8/tick (dmg>30)'}],
+  'LEN+OXA · Burn+ · OD 15.5 OXA · 7.5u each per 15u shot',
+  'Oxandrolone OD 15.5u. Get patient to cryo pod ASAP for 600+ burn cases.')+
+'</div>'+
+SH('Combined Trauma')+
+'<div class="grid">'+
+M('mix','Brute + Burns','SCENARIO · Mixed trauma',
+  'For patients with both Brute and thermal damage. Libital covers Brute. Lenturi covers Burns. Equal split 1:1. Both OD 20u — very safe.',
+  [{u:100,n:'Libital',e:'Brute -1.2/tick'},{u:100,n:'Lenturi',e:'Heat/Cold/Shock -0.6/tick'}],
+  'LIB+LEN · Brute+Burn · OD 20 · 7.5u each per 15u shot',null)+
+M('mix','Brute + Burns + Bleed','SCENARIO · Trauma with hemorrhage',
+  'For physical trauma with burn AND active bleeding — e.g. fire + melee. Libital covers Brute. Aiuri covers Burns. TranexamicAcid stops bleed. Saline restores blood.',
+  [{u:60,n:'Libital',e:'Brute -1.2/tick'},{u:50,n:'Aiuri',e:'Heat/Cold/Shock -0.4/tick'},{u:50,n:'TranexamicAcid',e:'Bleed -1.5/tick'},{u:40,n:'Saline',e:'Blood +6/tick'}],
+  'LIB+AIU+TREX+SAL · Full trauma · OD 15 TREX · ~4u each per 15u shot',
+  '4-chem jug. TREX OD 15u most restrictive. Max 3 shots of 15u before checking bleed levels.')+
+'</div>'+
+SH('Airloss & Critical')+
+'<div class="grid">'+
+M('mix','Airloss + Blood','SCENARIO · Asphyxiation + hemorrhage',
+  'For patients losing air AND blood simultaneously — common after gunshots to the chest or explosive decompression. All three work in parallel.',
+  [{u:70,n:'Dexalin',e:'Airloss -2/tick'},{u:65,n:'Salbutamol',e:'Airloss -6/tick (dmg>30)'},{u:65,n:'Saline',e:'Blood +6/tick'}],
+  'DEX+SALB+SAL · Oxy+Blood · OD 15.5 SALB · ~5u each per 15u shot',
+  'SALB OD 15.5u. Max 3 shots of 15u before checking levels.')+
+M('mix','Critical Response','SCENARIO · Pull from crit',
+  'For any critical patient. Epinephrine + Inaprovaline only activate in Critical. EPI removes stun, clears HeartbreakerToxin. Combined Asphyx: -5/tick in crit.',
+  [{u:100,n:'Epinephrine',e:'Asphyx -2 · Brute -0.3 · Burn -0.4/tick (crit only)'},{u:100,n:'Inaprovaline',e:'Asphyx -3/tick (crit) · Bleed -0.25 always'}],
+  'EPI+INAP · Crit · OD 20 EPI · 7.5u each per 15u shot',
+  'EPI has no effect on stable patients. Do not waste outside of Critical.')+
+M('mix','Full Critical Response','SCENARIO · Crit with airloss',
+  'For critical patients with heavy airloss. EPI + INAP stabilize in crit. Salbutamol adds -6/tick airloss when damage exceeds 30. Best overall critical jug.',
+  [{u:70,n:'Epinephrine',e:'Asphyx -2 · Brute -0.3 · Burn -0.4/tick (crit)'},{u:65,n:'Inaprovaline',e:'Asphyx -3/tick (crit) · Bleed -0.25'},{u:65,n:'Salbutamol',e:'Airloss -6/tick (dmg>30)'}],
+  'EPI+INAP+SALB · Full crit · OD 15.5 SALB · ~5u each per 15u shot',
+  'SALB most restrictive OD at 15.5u. Max 3 shots of 15u.')+
+'</div>';
+
+// ══════════════════════════════════════
+// SPECIAL
+// ══════════════════════════════════════
+document.getElementById('c-special').innerHTML=
+SH('Eye & Caustic Damage','first')+
+'<div class="grid">'+
+C('pre','OCULINE','OCUL · Eye damage · no OD',
+  'Heals <strong>eye damage</strong> completely. No OD. Requires Blood (external).',
+  {r:[{a:1,n:'TableSalt',no:'(synth)'},{a:1,n:'Blood',no:'(external)'},{a:2,n:'Hydroxide',no:'(synth)'}],out:4,prod:'Oculine'},
+  {i:[{a:20,n:'TableSalt'},{a:20,n:'Blood',s:'(external)'},{a:50,n:'Hydroxide'}],out:80,n:3},
+  'OCUL · Eye · no OD · 15u/shot',null,'Blood must be obtained externally. Hydroxide ratio is ×2 — use 50u for 20u of the others.')+
+C('pre','SIDERLAC','SIDER · Caustic · no OD',
+  'Heals <strong>Caustic -2 per tick</strong> (0.2/s). No OD. Precursor for Ardthyrnkole (hot pod). Requires Aloe and Stellibinin (both external).',
+  {r:[{a:1,n:'Aloe',no:'(external)'},{a:1,n:'Stellibinin',no:'(external)'}],out:2,prod:'Siderlac'},
+  {i:[{a:50,n:'Aloe',s:'(external)'},{a:50,n:'Stellibinin',s:'(external)'}],out:100,n:2},
+  'SIDER · Caustic · no OD · 15u/shot',null,'Both ingredients are external. Siderlac is also a precursor for Ardthyrnkole (hot pod burn treatment).')+
+C('pre','SIGYNATE','SIGY · Caustic · OD 16',
+  'Heals <strong>Caustic -3 per tick</strong>. OD at 16u → Heat +2/tick + Jitter + Vomit. Precursor for Aloxadone (cryo). Requires SodiumCarbonate and SodiumHydroxide (external).',
+  {r:[{a:1,n:'SodiumCarbonate',no:'(external)'},{a:1,n:'SodiumHydroxide',no:'(external)'},{a:1,n:'Lenturi',no:'(synth)'},{a:1,n:'Water'},{a:1,n:'Sugar'}],out:4,prod:'Sigynate',temp:'370K'},
+  {i:[{a:20,n:'SodiumCarbonate',s:'(external)'},{a:20,n:'SodiumHydroxide',s:'(external)'},{a:20,n:'Lenturi'},{a:20,n:'Water'},{a:20,n:'Sugar'}],out:80,n:3,temp:'370K'},
+  'SIGY · Caustic · OD 16 · max 10u/shot',null,'SodiumCarbonate and SodiumHydroxide are external. Also precursor for Aloxadone (cryo burn focus).')+
+'</div>'+
+SH('Topical Treatments — Applied by Touch')+
+'<div class="note-block" style="margin-bottom:12px;border-radius:3px">These chems work through direct contact (Touch), not injection. Apply using a syringe or dropper on the patient.</div>'+
+'<div class="grid">'+
+C('pre','STYPTICPOWDER','STYP · Brute topical · no OD',
+  'Topical: <strong>Brute -0.25 + Bleed -0.25</strong> per quantity applied (Touch method). Scales with amount. No injection needed.',
+  {r:[{a:1,n:'Aluminium'},{a:1,n:'Hydrogen'},{a:1,n:'Oxygen'},{a:1,n:'SulfuricAcid',no:'(synth)'}],out:4,prod:'StypticPowder'},
+  {i:[{a:25,n:'Aluminium'},{a:25,n:'Hydrogen'},{a:25,n:'Oxygen'},{a:25,n:'SulfuricAcid'}],out:100,n:2},
+  'STYP · Topical Brute · no OD · apply by touch',null,'Applied by touching patient or using on a wound directly. Scales with quantity applied.')+
+C('pre','SILVERSULFADIAZINE','SILSULF · Burn topical · no OD',
+  'Topical: <strong>Burn -0.25</strong> per quantity applied (Touch method). Scales with amount. Requires Silver (external).',
+  {r:[{a:1,n:'Ammonia',no:'(synth)'},{a:1,n:'Silver',no:'(external)'},{a:1,n:'Sulfur'},{a:1,n:'Oxygen'},{a:1,n:'Chlorine'}],out:5,prod:'SilverSulfadiazine'},
+  {i:[{a:20,n:'Ammonia'},{a:20,n:'Silver',s:'(external)'},{a:20,n:'Sulfur'},{a:20,n:'Oxygen'},{a:20,n:'Chlorine'}],out:100,n:2},
+  'SILSULF · Topical Burn · no OD · apply by touch',null,'Silver must be obtained externally. Applied by touch, not injection.')+
+'</div>'+
+SH('Anti-Narcotic & Stimulant')+
+'<div class="grid">'+
+C('pre','HALOPERIDOL','HALO · Anti-narcotic · no OD',
+  'Removes <strong>SpaceDrugs, THC, Ephedrine, Desoxyephedrine, Stimulants, Bananadine, SpaceGlue, MindbreakerToxin</strong> from bloodstream (-3u per tick). Causes drowsiness. No OD.',
+  {r:[{a:1,n:'Aluminium'},{a:1,n:'Chlorine'},{a:1,n:'Fluorine'},{a:1,n:'Oil',no:'(synth)'},{a:1,n:'PotassiumIodide',no:'(synth)'}],out:5,prod:'Haloperidol'},
+  {i:[{a:20,n:'Aluminium'},{a:20,n:'Chlorine'},{a:20,n:'Fluorine'},{a:20,n:'Oil'},{a:20,n:'PotassiumIodide'}],out:100,n:2},
+  'HALO · Anti-narcotic · no OD · 15u/shot',null,'Causes drowsiness as side effect. Removes most common narcotics and stimulants from the bloodstream.')+
+'</div>'+
+SH('Multi-Purpose Healers')+
+'<div class="grid">'+
+C('pre','GRANIBITULARI','GRANI · Multi · no OD',
+  'Heals <strong>Brute -0.3 · Poison -0.1 · Heat -0.1 · Shock -0.1 · Cold -0.1 per tick</strong> at 0.05/s (4x slower than standard). No OD. Good for patches and long-term passive healing.',
+  {r:[{a:1,n:'TableSalt',no:'(synth)'},{a:1,n:'Carbon'},{a:1,n:'Potassium'}],out:3,prod:'Granibitulari'},
+  {i:[{a:30,n:'TableSalt'},{a:30,n:'Carbon'},{a:30,n:'Potassium'}],out:90,n:3},
+  'GRANI · Multi · no OD · 15u/shot',null,'Very slow rate (0.05/s). Best used in patches or for light ongoing damage rather than acute emergencies.')+
+C('pre','TRICORDRAZINE','TRICORD · Multi · no OD',
+  'Heals <strong>Brute -0.9 · Poison -0.3 · Heat -0.3 · Shock -0.3 · Cold -0.3 per tick</strong> (0.2/s). Only active while total body damage is below 40. No OD. Good when you do not know what the patient has.',
+  {r:[{a:1,n:'Inaprovaline',no:'(synth)'},{a:1,n:'Multiver',no:'(synth)'}],out:2,prod:'Tricordrazine'},
+  {i:[{a:50,n:'Inaprovaline'},{a:50,n:'Multiver'}],out:100,n:2},
+  'TRICORD · Multi · no OD · 15u/shot',null,'Stops working when total damage exceeds 40. Use for mild multi-damage cases or as a safe default when diagnosis is unclear.')+
+'</div>'+
+SH('Pressure & Environment')+
+'<div class="grid">'+
+C('pre','BAROZINE','BARO · Pressure · external',
+  'Grants <strong>pressure immunity</strong>. Always causes: Stutter accent, Jitter, Scream (20% chance/tick), Heat +0.5 (30% chance/tick). OD at 30u: Poison +3/tick + Vomit (15% chance).',
+  {r:[{a:1,n:'External',no:'(no synthesis recipe)'}],out:1,prod:'Barozine'},
+  {i:[{a:200,n:'Barozine',s:'(obtain externally)'}],out:200,n:1},
+  'BARO · Pressure immunity · OD 30 · 10u/shot',null,'No synthesis recipe — must be obtained from external sources. Use before spacewalks or in decompression emergencies. Causes side effects even at normal doses.')+
+'</div>'+
+SH('Anti-Drunk & Stimulant Reversal')+
+'<div class="grid">'+
+C('pre','ETHYLREDOXRAZINE','ETHYLRED · Anti-drunk · no OD',
+  'Removes <strong>Drunk status for 60 seconds per tick</strong>. Also heals <strong>Poison -0.5 per tick</strong>. No OD. Use to sober up patients or counteract alcohol poisoning.',
+  {r:[{a:1,n:'Oxygen'},{a:1,n:'Multiver',no:'(synth)'},{a:1,n:'Carbon'}],out:3,prod:'Ethylredoxrazine'},
+  {i:[{a:30,n:'Oxygen'},{a:30,n:'Multiver'},{a:30,n:'Carbon'}],out:90,n:3},
+  'ETHYLRED · Anti-drunk · no OD · 15u/shot')+
+'</div>'+
+SH('Powerful All-Purpose')+
+'<div class="grid">'+
+C('pre','HYPOTHIUM','HYPO · All damage · no OD',
+  'Heals <strong>Brute -4.5 · Burn -4.5 · Toxin -4.5 · Airloss -6 per tick</strong> (0.2/s). Also reduces bleeding -0.5/tick. No OD. One of the most powerful healers in the game. Requires all external ingredients.',
+  {r:[{a:1,n:'Healium',no:'(external gas)'},{a:1,n:'Omnizine',no:'(external)'},{a:1,n:'Ethyloxyephedrine',no:'(external)'}],out:3,prod:'Hypothium'},
+  {i:[{a:30,n:'Healium',s:'(external)'},{a:30,n:'Omnizine',s:'(external)'},{a:30,n:'Ethyloxyephedrine',s:'(external)'}],out:90,n:3},
+  'HYPO · All damage · no OD · 15u/shot',null,'All three ingredients are external. When available, more powerful than Omnizine. Use for mass trauma or multi-damage critical patients.')+
+'</div>'+
+SH('Precursors for Advanced Chems')+
+'<div class="grid">'+
+C('pre','ULTRAVASCULINE','ULTRAV · Precursor · OD 30',
+  'Heals <strong>Toxin -3/tick</strong> (below 30u) or <strong>-1/tick</strong> (above 30u). Always causes <strong>Brute +0.5/tick</strong> side effect. Removes Histamine. OD at 30u: Toxin -1 but Brute +3/tick. Required to synthesize Sievertadone.',
+  {r:[{a:2,n:'Histamine',no:'(external)'},{a:1,n:'Plasma',cat:true}],out:2,prod:'Ultravasculine'},
+  {i:[{a:1,n:'Plasma',s:'(add once — stays in beaker)'},{a:50,n:'Histamine',s:'(external · add per batch)'}],out:50,n:4},
+  'ULTRAV · Toxin · OD 30 · precursor for Sievertadone',null,'Histamine is external. Plasma is a catalyst. Causes Brute +0.5/tick at any dose — pair with Libital if using therapeutically.')+
+C('pre','MANNITOL','MANN · Precursor · no OD',
+  'Currently has <strong>no active healing effect</strong> in the repo (devs note it as placeholder for planned brain healing). Precursor for <strong>Psicodine</strong> and <strong>Ambuzol I</strong>. Causes an enlightened popup at 15u.',
+  {r:[{a:1,n:'Hydrogen'},{a:1,n:'Water'},{a:1,n:'Sugar'}],out:3,prod:'Mannitol'},
+  {i:[{a:30,n:'Hydrogen'},{a:30,n:'Water'},{a:30,n:'Sugar'}],out:90,n:3},
+  'MANN · Precursor only · no OD',null,'Brain healing is planned but not yet implemented in the repo. Useful purely as a precursor for Psicodine and Ambuzol chain.')+
+'</div>';
+
+
+// ══════════════════════════════════════
+// CALCULATOR — full synthesis resolver
+// ══════════════════════════════════════
+(function(){
+const DISP = new Set(['Aluminium','Carbon','Chlorine','Copper','Ethanol','Fluorine','Sugar',
+  'Hydrogen','Iodine','Iron','Lithium','Mercury','Nitrogen','Oxygen','Phosphorus',
+  'Potassium','Radium','Silicon','Sodium','Sulfur','WeldingFuel','Water']);
+
+const EXT = new Set([
+  // Biological / medbay
+  'Blood','Plasma','Histamine','ZombieBlood',
+  // Botany
+  'Aloe','Stellibinin',
+  // Mining / salvage
+  'Silver','Uranium','Lead','Zinc',
+  // Syndicate uplink
+  'Vestine',
+  // Extract only (no recipe)
+  'CarpoToxin','Amatoxin',
+  // External / cargo / rare
+  'Healium','Omnizine','Ethyloxyephedrine',
+  'LiquidPie','Coffee',
+  'Barozine','Pestiline','Artifexium','Heparin','FerrochromicAcid',
+  // Fun / event items
+  'GroundBee','Saxoite','Fiber',
+  // Kitchen / extraction
+  'JuiceBanana','Slime','Toxin',
+]);
+
+const REC = {
+  Oil:{r:[{n:'WeldingFuel',a:1},{n:'Hydrogen',a:1},{n:'Carbon',a:1}],out:4},
+  Ammonia:{r:[{n:'Hydrogen',a:3},{n:'Nitrogen',a:1}],out:4},
+  TableSalt:{r:[{n:'Chlorine',a:1},{n:'Sodium',a:1}],out:2,temp:370},
+  SulfuricAcid:{r:[{n:'Hydrogen',a:1},{n:'Sulfur',a:1},{n:'Oxygen',a:2}],out:3},
+  Hydroxide:{r:[{n:'Oxygen',a:1},{n:'Hydrogen',a:1}],out:2,temp:310},
+  Acetone:{r:[{n:'Oil',a:1},{n:'WeldingFuel',a:1},{n:'Oxygen',a:1}],out:3},
+  Benzene:{r:[{n:'Hydrogen',a:1},{n:'Carbon',a:1}],out:1,temp:310},
+  Phenol:{r:[{n:'Hydroxide',a:1},{n:'Benzene',a:1}],out:2},
+  Thermite:{r:[{n:'Iron',a:1},{n:'Aluminium',a:1},{n:'Oxygen',a:1}],out:3},
+  UnstableMutagen:{r:[{n:'Radium',a:1},{n:'Phosphorus',a:1},{n:'Chlorine',a:1}],out:3},
+  Fersilicite:{r:[{n:'Iron',a:1},{n:'Silicon',a:1}],out:2,temp:310},
+  Diethylamine:{r:[{n:'Ammonia',a:1},{n:'Ethanol',a:1}],out:2},
+  SodiumCarbonate:{r:[{n:'Ammonia',a:1},{n:'TableSalt',a:1},{n:'Carbon',a:1},{n:'Oxygen',a:1}],out:4},
+  SodiumHydroxide:{r:[{n:'Hydroxide',a:1},{n:'Sodium',a:1}],out:2},
+  Dexalin:{r:[{n:'Oxygen',a:2},{n:'Plasma',a:1,cat:true}],out:3},
+  Inaprovaline:{r:[{n:'Oxygen',a:1},{n:'Carbon',a:1},{n:'Sugar',a:1}],out:3},
+  PotassiumIodide:{r:[{n:'Potassium',a:1},{n:'Iodine',a:1}],out:2},
+  Probital:{r:[{n:'Acetone',a:1},{n:'Copper',a:1},{n:'Phosphorus',a:1}],out:3},
+  Leporazine:{r:[{n:'Copper',a:1},{n:'Fersilicite',a:1},{n:'Plasma',a:1,cat:true}],out:2},
+  Multiver:{r:[{n:'TableSalt',a:1},{n:'Oil',a:1},{n:'Silicon',a:1}],out:3},
+  Libital:{r:[{n:'Nitrogen',a:1},{n:'Oil',a:1},{n:'Oxygen',a:1}],out:3},
+  Cryoxadone:{r:[{n:'Dexalin',a:1},{n:'Water',a:1},{n:'Oxygen',a:1}],out:3},
+  Hyronalin:{r:[{n:'Radium',a:1},{n:'PotassiumIodide',a:1}],out:2},
+  Arithrazine:{r:[{n:'Hyronalin',a:1},{n:'Hydrogen',a:1}],out:2},
+  Lenturi:{r:[{n:'SulfuricAcid',a:1},{n:'Chlorine',a:1},{n:'Oxygen',a:1}],out:3},
+  Aiuri:{r:[{n:'WeldingFuel',a:1},{n:'Ammonia',a:1},{n:'Hydrogen',a:1}],out:3},
+  Synaptizine:{r:[{n:'Lithium',a:1},{n:'Sugar',a:1},{n:'Water',a:1}],out:3},
+  Mannitol:{r:[{n:'Hydrogen',a:1},{n:'Water',a:1},{n:'Sugar',a:1}],out:3},
+  Pyroxadone:{r:[{n:'Dexalin',a:1},{n:'Thermite',a:1},{n:'WeldingFuel',a:1}],out:3,temp:433},
+  Siderlac:{r:[{n:'Aloe',a:1},{n:'Stellibinin',a:1}],out:2},
+  Ultravasculine:{r:[{n:'Histamine',a:2},{n:'Plasma',a:1,cat:true}],out:2},
+  Cognizine:{r:[{n:'CarpoToxin',a:1},{n:'Siderlac',a:1},{n:'Acetone',a:1}],out:1},
+  Bruizine:{r:[{n:'Libital',a:1},{n:'Lithium',a:0.9},{n:'Sugar',a:1}],out:2},
+  Lacerinol:{r:[{n:'Libital',a:1},{n:'Benzene',a:1}],out:2,temp:335},
+  Puncturase:{r:[{n:'Libital',a:1},{n:'Hydroxide',a:1}],out:2,temp:325},
+  SalicylicAcid:{r:[{n:'Phenol',a:1},{n:'Probital',a:1},{n:'SulfuricAcid',a:1},{n:'Carbon',a:1}],out:4},
+  Oxandrolone:{r:[{n:'Phenol',a:1},{n:'Carbon',a:2},{n:'Lenturi',a:1}],out:4},
+  Pyrazine:{r:[{n:'Leporazine',a:1},{n:'Aiuri',a:1},{n:'Carbon',a:1}],out:3,temp:540},
+  Insuzine:{r:[{n:'Leporazine',a:1},{n:'Aiuri',a:1},{n:'Silicon',a:1}],out:3,temp:433},
+  PenteticAcid:{r:[{n:'Multiver',a:1},{n:'Silicon',a:1},{n:'Oil',a:1},{n:'Plasma',a:1},{n:'Ethanol',a:1}],out:5},
+  Salbutamol:{r:[{n:'Dexalin',a:1},{n:'Inaprovaline',a:1},{n:'Phenol',a:1},{n:'Lithium',a:1}],out:4},
+  Convermol:{r:[{n:'Dexalin',a:1},{n:'Aluminium',a:1},{n:'Fluorine',a:1}],out:3},
+  Epinephrine:{r:[{n:'Phenol',a:1},{n:'Acetone',a:1},{n:'Chlorine',a:1},{n:'Hydroxide',a:1}],out:4},
+  TranexamicAcid:{r:[{n:'Inaprovaline',a:1},{n:'SulfuricAcid',a:1},{n:'Sugar',a:1}],out:3},
+  Saline:{r:[{n:'Water',a:4},{n:'TableSalt',a:1}],out:5},
+  Granibitulari:{r:[{n:'TableSalt',a:1},{n:'Carbon',a:1},{n:'Potassium',a:1}],out:3},
+  Tricordrazine:{r:[{n:'Inaprovaline',a:1},{n:'Multiver',a:1}],out:2},
+  Ethylredoxrazine:{r:[{n:'Oxygen',a:1},{n:'Multiver',a:1},{n:'Carbon',a:1}],out:3},
+  Phalanximine:{r:[{n:'Hyronalin',a:1},{n:'Ethanol',a:1},{n:'UnstableMutagen',a:1}],out:3},
+  Haloperidol:{r:[{n:'Aluminium',a:1},{n:'Chlorine',a:1},{n:'Fluorine',a:1},{n:'Oil',a:1},{n:'PotassiumIodide',a:1}],out:5},
+  Oculine:{r:[{n:'TableSalt',a:1},{n:'Blood',a:1},{n:'Hydroxide',a:2}],out:4},
+  StypticPowder:{r:[{n:'Aluminium',a:1},{n:'Hydrogen',a:1},{n:'Oxygen',a:1},{n:'SulfuricAcid',a:1}],out:4},
+  SilverSulfadiazine:{r:[{n:'Ammonia',a:1},{n:'Silver',a:1},{n:'Sulfur',a:1},{n:'Oxygen',a:1},{n:'Chlorine',a:1}],out:5},
+  Doxarubixadone:{r:[{n:'Cryoxadone',a:1},{n:'UnstableMutagen',a:1}],out:2},
+  Aloxadone:{r:[{n:'Cryoxadone',a:3},{n:'Aloe',a:1},{n:'Sigynate',a:1}],out:5},
+  Necrosol:{r:[{n:'Blood',a:3},{n:'Omnizine',a:1},{n:'Cryoxadone',a:2}],out:2,temp:370},
+  Opporozidone:{r:[{n:'Cognizine',a:1,cat:true},{n:'Plasma',a:5},{n:'Doxarubixadone',a:1}],out:3,temp:400},
+  Ardthyrnkole:{r:[{n:'Pyroxadone',a:1},{n:'Plasma',a:1,cat:true},{n:'Siderlac',a:1}],out:2},
+  Natusixadone:{r:[{n:'Pyroxadone',a:1},{n:'UnstableMutagen',a:1}],out:2},
+  Sievertadone:{r:[{n:'Pyroxadone',a:1},{n:'Arithrazine',a:2},{n:'Ultravasculine',a:1},{n:'Fluorine',a:1,cat:true}],out:3},
+  Hypothium:{r:[{n:'Healium',a:1},{n:'Omnizine',a:1},{n:'Ethyloxyephedrine',a:1}],out:3},
+  Sigynate:{r:[{n:'SodiumCarbonate',a:1},{n:'SodiumHydroxide',a:1},{n:'Lenturi',a:1},{n:'Water',a:1},{n:'Sugar',a:1}],out:4,temp:370},
+  Diphenhydramine:{r:[{n:'Diethylamine',a:1},{n:'Oil',a:1},{n:'TableSalt',a:1},{n:'Carbon',a:1},{n:'Ethanol',a:1}],out:3,temp:378},
+  MindbreakerToxin:{r:[{n:'Silicon',a:1},{n:'Hydrogen',a:1},{n:'Multiver',a:1}],out:3,temp:370},
+  SpaceDrugs:{r:[{n:'Mercury',a:1},{n:'Sugar',a:1},{n:'Lithium',a:1}],out:3},
+  ChloralHydrate:{r:[{n:'Chlorine',a:3},{n:'Ethanol',a:1},{n:'Water',a:1}],out:3},
+  Pax:{r:[{n:'MindbreakerToxin',a:1},{n:'Synaptizine',a:1},{n:'Water',a:1}],out:3},
+  Impedrezene:{r:[{n:'Mercury',a:1},{n:'Oxygen',a:1},{n:'Water',a:1}],out:1,temp:370},
+  Psicodine:{r:[{n:'Mannitol',a:2},{n:'Impedrezene',a:1},{n:'Water',a:2}],out:4},
+  Mutadone:{r:[{n:'UnstableMutagen',a:1},{n:'Chlorine',a:1},{n:'Acetone',a:1}],out:3},
+  HeartbreakerToxin:{r:[{n:'Salbutamol',a:1},{n:'MindbreakerToxin',a:1}],out:2},
+  Lexorin:{r:[{n:'HeartbreakerToxin',a:1},{n:'Plasma',a:1},{n:'Vestine',a:1}],out:2},
+  // Recetas que faltaban — validadas contra repo Mayo 2026
+  Ephedrine:{r:[{n:'Oil',a:1},{n:'Hydrogen',a:1},{n:'Sugar',a:1},{n:'Diethylamine',a:1}],out:4},
+  Desoxyephedrine:{r:[{n:'Ephedrine',a:1},{n:'Carbon',a:1},{n:'Iodine',a:1},{n:'Phosphorus',a:1}],out:4,temp:370},
+  Lipolicide:{r:[{n:'Ephedrine',a:1},{n:'Diethylamine',a:1},{n:'Mercury',a:1}],out:3},
+  Stimulants:{r:[{n:'Ephedrine',a:1},{n:'Vestine',a:1},{n:'Oxygen',a:2}],out:2,temp:370},
+  Licoxide:{r:[{n:'Lead',a:1},{n:'Zinc',a:1}],out:1},
+  Tazinide:{r:[{n:'Licoxide',a:1},{n:'Vestine',a:1}],out:1},
+  Laughter:{r:[{n:'JuiceBanana',a:1},{n:'Sugar',a:1}],out:2},
+  Happiness:{r:[{n:'Laughter',a:2},{n:'Epinephrine',a:1},{n:'Ethanol',a:1},{n:'Plasma',a:5,cat:true}],out:4},
+  Haloperidol:{r:[{n:'Aluminium',a:1},{n:'Chlorine',a:1},{n:'Fluorine',a:1},{n:'Oil',a:1},{n:'PotassiumIodide',a:1}],out:5},
+  NorepinephricAcid:{r:[{n:'Uranium',a:1},{n:'Epinephrine',a:1}],out:2},
+  Ash:{r:[{n:'Oil',a:1}],out:1,temp:520},
+  SpaceGlue:{r:[{n:'SpaceLube',a:1},{n:'Slime',a:1}],out:2,temp:370},
+  SpaceLube:{r:[{n:'Water',a:1},{n:'Fersilicite',a:1},{n:'Oxygen',a:1}],out:5},
+  Charcoal:{r:[{n:'Carbon',a:1},{n:'Ash',a:1}],out:1},
+  PolytrinicAcid:{r:[{n:'SulfuricAcid',a:1},{n:'Plasma',a:1},{n:'Potassium',a:1}],out:3},
+  FluorosulfuricAcid:{r:[{n:'Fluorine',a:1},{n:'Hydrogen',a:1},{n:'Potassium',a:1},{n:'SulfuricAcid',a:1}],out:4},
+  Napalm:{r:[{n:'Oil',a:1},{n:'WeldingFuel',a:1},{n:'Ethanol',a:1}],out:3},
+  Bleach:{r:[{n:'TableSalt',a:2},{n:'SpaceCleaner',a:2},{n:'SodiumHydroxide',a:1}],out:5},
+  SpaceCleaner:{r:[{n:'Ammonia',a:1},{n:'Water',a:1}],out:2},
+  Sedin:{r:[{n:'Cryoxadone',a:1},{n:'RobustHarvest',a:3},{n:'Diethylamine',a:3}],out:1},
+  RobustHarvest:{r:[{n:'EZNutrient',a:1},{n:'SulfuricAcid',a:1,cat:true}],out:1},
+  EZNutrient:{r:[{n:'Nitrogen',a:1},{n:'Phosphorus',a:1},{n:'Potassium',a:1}],out:3},
+  Left4Zed:{r:[{n:'EZNutrient',a:1},{n:'Radium',a:1,cat:true}],out:1},
+  PlantBGone:{r:[{n:'Toxin',a:1},{n:'Water',a:4}],out:5},
+};
+
+const ALL_CHEMS = Object.keys(REC);
+
+function buildPlan(name, amount){
+  const needed={};
+  function calc(n,a){
+    if(DISP.has(n)||EXT.has(n)) return;
+    const r=REC[n]; if(!r) return;
+    needed[n]=(needed[n]||0)+a;
+    const mult=a/r.out;
+    for(const i of r.r){ if(!i.cat) calc(i.n, mult*i.a); }
+  }
+  calc(name,amount);
+  const processed=new Set(), steps=[];
+  function proc(n){
+    if(processed.has(n)) return;
+    const r=REC[n]; if(!r||!needed[n]) return;
+    for(const i of r.r){ if(!i.cat&&!DISP.has(i.n)&&!EXT.has(i.n)) proc(i.n); }
+    processed.add(n);
+    // Round multiplier UP to integer so all amounts are whole numbers
+    const intMult=Math.ceil(needed[n]/r.out);
+    const a=intMult*r.out;
+    steps.push({name:n,amount:a,temp:r.temp||null,
+      inputs:r.r.map(i=>{
+        let type=i.cat?'cat':DISP.has(i.n)?'disp':EXT.has(i.n)?'ext':REC[i.n]?'synth':'ext';
+        return{n:i.n,a:i.cat?null:Math.ceil(intMult*i.a),type};
+      })});
+  }
+  proc(name);
+  const base={},ext={};
+  for(const s of steps) for(const i of s.inputs){
+    if(i.type==='disp') base[i.n]=(base[i.n]||0)+i.a;
+    if(i.type==='ext') ext[i.n]=(ext[i.n]||0)+i.a;
+  }
+  return{steps,base,ext};
+}
+
+function fmt(n){ return Math.ceil(n)+'u'; }
+
+function render(name, amount){
+  const res=document.getElementById('calc-result');
+  if(!REC[name]){
+    res.innerHTML='<div class="calc-empty">Chem not found or not synthesizable.</div>';
+    return;
+  }
+  const plan=buildPlan(name,amount);
+  const finalOutput=plan.steps.length?plan.steps[plan.steps.length-1].amount:amount;
+  let html='';
+
+  // Base ingredients
+  const bEntries=Object.entries(plan.base);
+  if(bEntries.length){
+    html+='<div class="calc-section"><div class="calc-section-head disp">📦 From Dispenser &amp; Sink</div><div class="calc-ing-list">';
+    for(const [k,v] of bEntries.sort((a,b)=>a[0].localeCompare(b[0]))){
+      html+=`<div class="calc-ing-row"><span class="calc-ing-amt">${v}u</span><span class="calc-ing-name">${k}</span></div>`;
+    }
+    html+='</div></div>';
+  }
+
+  // External
+  const eEntries=Object.entries(plan.ext);
+  if(eEntries.length){
+    html+='<div class="calc-section"><div class="calc-section-head ext">⚠ External — obtain separately</div><div class="calc-ing-list">';
+    for(const [k,v] of eEntries.sort((a,b)=>a[0].localeCompare(b[0]))){
+      html+=`<div class="calc-ing-row"><span class="calc-ing-amt">${v}u</span><span class="calc-ing-name">${k}</span></div>`;
+    }
+    html+='</div></div>';
+  }
+
+  // Steps
+  html+='<div class="calc-section"><div class="calc-section-head steps">🔬 Synthesis Steps — in order</div>';
+  for(let i=0;i<plan.steps.length;i++){
+    const s=plan.steps[i];
+    const isLast=i===plan.steps.length-1;
+    const outNote=isLast&&s.amount>amount?` <span style="font-family:'DM Mono',monospace;font-size:10px;opacity:0.6">(target ${amount}u)</span>`:'';
+    html+=`<div class="calc-step">
+      <div class="calc-step-head">
+        <span class="calc-step-num">STEP ${i+1}</span>
+        <span class="calc-step-name">${s.name}</span>
+        ${s.temp?`<span class="calc-step-temp">🌡 ${s.temp}K`:''}
+        <span class="calc-step-out">→ ${s.amount}u${outNote}</span>
+      </div>
+      <div class="calc-step-ings">`;
+    for(const ing of s.inputs){
+      if(ing.type==='cat'){
+        html+=`<div class="calc-step-ing"><span class="calc-step-ing-amt">—</span><span class="calc-step-ing-name">${ing.n}</span><span class="tag-cat">catalyst · stays in beaker</span></div>`;
+      } else {
+        const tag=ing.type==='disp'?'tag-disp':ing.type==='ext'?'tag-ext':'tag-synth';
+        const label=ing.type==='disp'?'dispenser':ing.type==='ext'?'external':'synthesize first';
+        html+=`<div class="calc-step-ing"><span class="calc-step-ing-amt">${ing.a}u</span><span class="calc-step-ing-name">${ing.n}</span><span class="${tag}">${label}</span></div>`;
+      }
+    }
+    html+='</div></div>';
+  }
+  html+='</div>';
+  res.innerHTML=html;
+}
+
+// UI interactions
+let selChem=null, selQty=100;
+
+const input=document.getElementById('calc-input');
+const sugList=document.getElementById('sug-list');
+
+input.addEventListener('input',()=>{
+  const q=input.value.trim().toLowerCase();
+  if(!q){ sugList.style.display='none'; return; }
+  const matches=ALL_CHEMS.filter(c=>c.toLowerCase().includes(q)).slice(0,12);
+  if(!matches.length){ sugList.style.display='none'; return; }
+  sugList.innerHTML=matches.map(c=>`<div class="sug-item" data-name="${c}">${c}</div>`).join('');
+  sugList.style.display='block';
+  sugList.querySelectorAll('.sug-item').forEach(el=>{
+    el.addEventListener('click',()=>{
+      selChem=el.dataset.name;
+      input.value=selChem;
+      sugList.style.display='none';
+      render(selChem, selQty);
+    });
+  });
+});
+
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.suggestions')) sugList.style.display='none';
+});
+
+document.querySelectorAll('.qty-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.qty-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    selQty=parseInt(btn.dataset.q);
+    if(selChem) render(selChem, selQty);
+  });
+});
+})();
+
+
+// ══════════════════════════════════════
+// TOXINS
+// ══════════════════════════════════════
+(function(){
+const el = document.getElementById('c-toxins');
+if(!el) return;
+
+function TC(cls,name,tag,desc,recipe,batch,warn,note){
+  let rc='';
+  if(recipe){
+    rc=recipe.r.map(r=>`<div class="trr"><span class="tra">${r.a}</span><span class="trn">${r.n}${r.no?` <span class="tno">${r.no}</span>`:''}</span></div>`).join('');
+  }
+  const bl=batch?batch.i.map(b=>`<div class="tbr"><span class="tba">${b.a}u</span><span class="tbn">${b.n}${b.s?` <span class="tbs">${b.s}</span>`:''}</span></div>`).join(''):'';
+  const tmp=batch&&batch.temp?` · 🌡 ${batch.temp}`:'';
+  return `<div class="tcard ${cls}">
+<div class="tcard-head"><span class="tcard-name">${name}</span><span class="ttag">${tag}</span></div>
+<div class="tcard-body">
+${warn?`<div class="twarn">${warn}</div>`:''}
+${note?`<div class="tnote">${note}</div>`:''}
+<div class="tdesc">${desc}</div>
+${recipe?`<hr style="border:none;border-top:1px solid #2a2a2a">
+<div><div class="tsl">Recipe${recipe.temp?` <span style="color:#ff8c00;font-size:10px;font-family:'DM Mono',monospace">🌡 ${recipe.temp}</span>`:''}</div>
+<div class="trl">${rc}</div>
+<div class="tprod"><span style="color:#555;margin-right:4px">→</span><span class="tpa">${recipe.out}u</span><span class="tpn">${recipe.prod}</span></div></div>`:''}
+${batch?`<div class="tbat"><div class="tbt">Optimal batch — 100u beaker${tmp}</div>
+<div class="tbl">${bl}</div>
+<div class="tbres"><span class="tbout">→ ${batch.out}u ${recipe.prod}</span><span class="tbjug">${batch.n}x → 200u jug</span></div></div>`:''}
+</div></div>`;
+}
+
+function TSH(label,cls){return `<div class="sh ${cls||''}" style="color:${cls==='synth'?'#ff8c00':cls==='special-formula'?'#9b59b6':'#e53e3e'};border-color:${cls==='synth'?'#ff8c00':cls==='special-formula'?'#9b59b6':'#e53e3e'}">${label}</div>`;}
+
+el.innerHTML=
+TSH('Synthesizable Toxins','synth')+
+'<div class="grid">'+
+TC('orange','POLYTRINICACID','TOX · Caustic 11/tick · rate 3/s',
+  'Destroys tissue at <strong>Caustic 11/tick at 3/s</strong>. Also burns on skin contact (Touch: Caustic 0.5 per unit). Causes screaming. Extremely fast damage — lethal quickly at any dose.',
+  {r:[{a:1,n:'SulfuricAcid',no:'(synth)'},{a:1,n:'Plasma',no:'(external)'},{a:1,n:'Potassium'}],out:3,prod:'PolytrinicAcid'},
+  {i:[{a:30,n:'SulfuricAcid'},{a:30,n:'Plasma',s:'(external)'},{a:30,n:'Potassium'}],out:90,n:3},
+  '⚠ Extremely lethal. Burns on skin contact. Screams alert nearby crew.',null)+
+TC('orange','FLUOROSULFURICACID','TOX · Caustic 8/tick · rate 3/s',
+  'Causes <strong>Caustic 8/tick at 3/s</strong>. Burns on skin contact (Touch: Caustic 0.3 per unit). Slightly weaker than PolytrinicAcid but fully synthesizable from dispenser.',
+  {r:[{a:1,n:'Fluorine'},{a:1,n:'Hydrogen'},{a:1,n:'Potassium'},{a:1,n:'SulfuricAcid',no:'(synth)'}],out:4,prod:'FluorosulfuricAcid'},
+  {i:[{a:25,n:'Fluorine'},{a:25,n:'Hydrogen'},{a:25,n:'Potassium'},{a:25,n:'SulfuricAcid'}],out:100,n:2},
+  null,null)+
+TC('','HEARTBREAKERTOXIN','TOX · Asphyx 5/tick',
+  'Causes <strong>Asphyxiation 5/tick</strong>. Kills through oxygen deprivation. The only counter is Epinephrine (-2 HBT per tick in Critical). Sintetizable by combining Salbutamol + MindbreakerToxin.',
+  {r:[{a:1,n:'Salbutamol',no:'(synth)'},{a:1,n:'MindbreakerToxin',no:'(synth)'}],out:2,prod:'HeartbreakerToxin'},
+  {i:[{a:50,n:'Salbutamol'},{a:50,n:'MindbreakerToxin'}],out:100,n:2},
+  null,null)+
+TC('','LEXORIN','TOX · Airloss 10/tick',
+  'Causes <strong>Airloss 10/tick</strong> — fastest suffocation chem in the game. Requires Vestine (external). Counter: Salbutamol or Dexalin.',
+  {r:[{a:1,n:'HeartbreakerToxin',no:'(synth)'},{a:1,n:'Plasma',no:'(external)'},{a:1,n:'Vestine',no:'(external)'}],out:2,prod:'Lexorin'},
+  {i:[{a:50,n:'HeartbreakerToxin'},{a:30,n:'Plasma',s:'(external)'},{a:30,n:'Vestine',s:'(external)'}],out:50,n:4},
+  null,null)+
+TC('orange','HEPARIN','TOX · Bloodloss 4/tick · rate 2/s',
+  'Causes <strong>Bloodloss 4/tick</strong> and sets bleeding +6 per tick at 2/s — extremely fast hemorrhage. Funky-specific. No known synthesizable counter except TranexamicAcid.',
+  {r:[{a:1,n:'External',no:'(no synthesis recipe in repo)'}],out:1,prod:'Heparin'},
+  null,'⚠ Funky-specific. No synthesis recipe — external source only.',null)+
+TC('','MUTETOXIN','TOX · Silences target',
+  'Silences the target — they cannot speak or radio. Not lethal alone. Requires Uranium and SpaceGlue (external). Often used to isolate targets.',
+  {r:[{a:1,n:'Uranium',no:'(external)'},{a:2,n:'Vestine',no:'(external)'},{a:2,n:'SpaceGlue',no:'(SpaceLube+Slime 370K → ×2)'}],out:2,prod:'MuteToxin',temp:'370K'},
+  {i:[{a:20,n:'Uranium',s:'(external)'},{a:40,n:'Vestine',s:'(external · x2 ratio)'},{a:40,n:'SpaceGlue',s:'(synth: SpaceLube+Slime 370K)'} ],out:40,n:5,temp:'370K'},
+  null,'Mostly external ingredients. Useful for preventing the target from calling for help.')+
+TC('','CHLORALHYDRATE','TOX · Sedative · OD KO',
+  'Causes drowsiness and slows movement at any dose. Above 10u: anesthesia. Above 20u: Poison 1.5/tick. Metabolizes at 0.25/s (slow — lasts longer). Full dispenser synthesis.',
+  {r:[{a:3,n:'Chlorine'},{a:1,n:'Ethanol'},{a:1,n:'Water'}],out:3,prod:'ChloralHydrate'},
+  {i:[{a:50,n:'Chlorine',s:'(use 3 ratio)'},{a:20,n:'Ethanol'},{a:20,n:'Water'}],out:90,n:3},
+  null,'Slows movement 35% at any dose. 10u = anesthesia. 20u+ = Poison damage. Useful for surgery or... other purposes.')+
+TC('','MINDBREAKERTOKEN','TOX · Hallucinations · no damage',
+  'Causes visual hallucinations (SeeingRainbows). Does not deal damage. Precursor for Pax and HeartbreakerToxin. Full dispenser synthesis.',
+  {r:[{a:1,n:'Silicon'},{a:1,n:'Hydrogen'},{a:1,n:'Multiver',no:'(synth)'}],out:3,prod:'MindbreakerToxin',temp:'370K'},
+  {i:[{a:30,n:'Silicon'},{a:30,n:'Hydrogen'},{a:30,n:'Multiver'}],out:90,n:3,temp:'370K'},
+  null,null)+
+TC('orange','RHIGOXANE','TOX · Freezes target',
+  'Funky-specific. Rapidly reduces body temperature (-25,000 thermal per tick) + Cold 1/tick. Can freeze a target to death through temperature damage. No synthesis recipe — external.',
+  {r:[{a:1,n:'External',no:'(no synthesis recipe in repo)'}],out:1,prod:'Rhigoxane'},
+  null,null,'External only. Effective against targets without cold protection.')+
+TC('','NOCTURINE','TOX · Causes sleep',
+  'Puts the target to sleep. No direct damage. Requires Impedrezene (synth) and Vestine (external).',
+  {r:[{a:2,n:'Impedrezene',no:'(Hg+O+Water, 370K → ×1)'},{a:1,n:'Vestine',no:'(external)'}],out:1,prod:'Nocturine'},
+  {i:[{a:50,n:'Impedrezene'},{a:50,n:'Vestine',s:'(external)'}],out:25,n:8},
+  null,'Output is only 1u per 3u input — low efficiency. Vestine is external.')+
+TC('orange','RAZORIUM','TOX · Slash 9/tick · rate 3/s · slips',
+  'Causes <strong>Slash 9/tick at 3/s</strong>. On skin contact: Slash +0.5 per unit (Touch). Also acts as a slip hazard on floors. Causes screaming. Made by combining any 2 T2 Brute meds — but the result is a toxin, not a medicine.',
+  {r:[{a:1,n:'Any Brute T2 med'},{a:1,n:'Any other Brute T2 med'}],out:1,prod:'Razorium'},
+  {i:[{a:50,n:'Lacerinol',s:'(any T2 brute)'},{a:50,n:'Puncturase',s:'(any T2 brute)'}],out:50,n:4},
+  null,'DO NOT combine T2 brute meds accidentally — the product is lethal. Keep T2 meds in separate jugs.',null)+
+TC('','UNSTABLEMUTAGEN','TOX · Radiation 3/tick',
+  'Causes <strong>Radiation 3/tick</strong>. Also causes random plant mutations. Full dispenser synthesis. Counter: Hyronalin or Arithrazine.',
+  {r:[{a:1,n:'Radium'},{a:1,n:'Phosphorus'},{a:1,n:'Chlorine'}],out:3,prod:'UnstableMutagen'},
+  {i:[{a:30,n:'Radium'},{a:30,n:'Phosphorus'},{a:30,n:'Chlorine'}],out:90,n:3},
+  null,null)+
+'</div>'+
+TC('orange','FRESIUM','TOX · Freezes · Paralyzes',
+  'Reduces body temperature -10,000 thermal/tick. Slows movement 40% below 40u, <strong>completely stops movement at 40u+</strong> (speed 0.0). Creates ice on tiles (Touch). Synthesis is very complex — requires Frezon gas (atmos), Plasma catalyst, Nitrogen, Cryoxadone, TableSalt, Water at maxTemp 300K.',
+  {r:[{a:3,n:'Frezon',no:'(atmos gas)'},{a:1,n:'Plasma',cat:true},{a:2,n:'Nitrogen'},{a:0.22,n:'Cryoxadone'},{a:0.08,n:'TableSalt'},{a:1.5,n:'Water'}],out:5,prod:'Fresium',temp:'max 300K'},
+  {i:[{a:25,n:'Plasma',s:'(catalyst, stays)'},{a:30,n:'Frezon',s:'(atmos gas)'},{a:20,n:'Nitrogen'},{a:20,n:'Water'}],out:25,n:8,temp:'max 300K'},
+  null,'Requires Frezon gas from Atmospherics. Mixture must be BELOW 300K to react.',null)+
+'</div>'+
+TSH('External Only — No Synthesis Recipe')+
+'<div class="grid">'+
+TC('yellow','LEAD','EXT · Poison 0.6/tick · rate 0.03/s',
+  'Very slow poison (0.03/s — once every ~33 seconds) but deals 20 damage per unit over time. Enters the station through sabotage of water or chemical systems — syndicate hack. No synthesizable counter except Multiver/PenteticAcid.',
+  null,null,null,'Rate is 0.03/s — nearly undetectable until damage accumulates. A classic sabotage chem.')+
+TC('yellow','CARPOTOXIN','EXT · Poison 4/tick',
+  'Deals <strong>Poison 4/tick</strong>. Has no effect on Thaven species (naturally immune). External — found in certain plants. Precursor for Cognizine.',
+  null,null,null,'Thavenid players are immune. Found in certain botanical sources.')+
+TC('yellow','AMATOXIN','EXT · Poison 3/tick · rate 0.2/s',
+  'Causes <strong>Poison 3/tick at 0.2/s</strong>. Obtained from mushrooms and poisonous plants. Counter: Stellibinin (specifically destroys Amatoxin).',
+  null,null,null,'Only counter is Stellibinin — Multiver does not directly destroy it.')+
+TC('yellow','TAZINIDE','EXT · Electrocutes',
+  'Electrocutes the target with 80% chance per tick. Synthesizable from Licoxide (external) + Vestine (external). Causes Shock damage. Counter: Insuzine clears Tazinide directly.',
+  {r:[{a:1,n:'Licoxide',no:'(external)'},{a:1,n:'Vestine',no:'(external)'}],out:1,prod:'Tazinide'},
+  null,null,'Both ingredients are external. Insuzine (burn T2) directly clears this from the bloodstream.')+
+TC('yellow','VESTINE','EXT · Airloss 2/tick · slows',
+  'Causes <strong>Airloss 2/tick</strong>, slows movement 20%, and causes Jitter above 5u. Ingredient for Lexorin, MuteToxin, Nocturine, Tazinide. External — no synthesis.',
+  null,null,null,'Key ingredient for multiple advanced toxins. External source only.')+
+
+'</div>';
+})();
+
+
+// ══════════════════════════════════════
+// EXTERNAL SOURCES
+// ══════════════════════════════════════
+(function(){
+const el=document.getElementById('c-ext');
+if(!el) return;
+
+function E(cls,icon,name,badge,sources,usedFor){
+  const sr=sources.map(s=>`<div class="ext-source-row">${s}</div>`).join('');
+  return `<div class="ext-card ${cls}">
+<div class="ext-head"><span class="ext-icon">${icon}</span><span class="ext-name">${name}</span><span class="ext-badge">${badge}</span></div>
+<div class="ext-sources">${sr}</div>
+<div class="ext-used-for">${usedFor}</div>
+</div>`;
+}
+
+function SH(l,c){return `<div class="sh ${c||''}">${l}</div>`;}
+
+el.innerHTML=
+SH('Botany — Hydroponics Department','first')+
+'<div class="ext-grid">'+
+E('botany','🌿','Aloe','BOTANY',
+  ['Grow Aloe Vera plant (seeds from seed vendor or botany crate)',
+   'Extract reagent from harvested leaves'],
+  'Used for: Siderlac → Ardthyrnkole (hot pod), Aloxadone (cryo)')+
+E('botany','🌿','Stellibinin','BOTANY',
+  ['Grow Stellibinin plant (botany department)',
+   'Also found in some medical supply crates (rare)'],
+  'Used for: Siderlac. Also directly cures Amatoxin poisoning on its own.')+
+E('botany','☠','CarpoToxin','BOTANY · TOXIC',
+  ['Grow CarpoToxin plant in hydroponics — handle carefully',
+   'Toxic to most species including the botanist'],
+  'Used for: Cognizine → Opporozidone (anti-rot cryo). Toxic precursor.')+
+E('botany','🌿','Omnizine','BOTANY / CARGO',
+  ['Rare drop from certain mutated plants in hydroponics',
+   'Medical supply crates from cargo (uncommon)',
+   'Medbay emergency storage (sometimes)'],
+  'Used for: Necrosol (cryo dead), Hypothium (all-damage healer).')+
+'</div>'+
+SH('Medical — Medbay & Blood')+
+'<div class="ext-grid">'+
+E('medical','🩸','Blood','MEDICAL',
+  ['Collected from any bleeding mob or player with a blood collector/syringe',
+   'Blood pack stored in medbay fridges',
+   'Blood draw from volunteers or patients'],
+  'Used for: Oculine (eye damage), Necrosol (cryo dead treatment).')+
+E('medical','💊','Histamine','MEDICAL',
+  ['Produced naturally in bodies during allergic reactions',
+   'Certain mob attacks deposit it into bloodstream',
+   'Draw from affected patient with syringe'],
+  'Used for: Ultravasculine → Sievertadone (hot pod rad treatment). Catalyst Plasma stays.')+
+'</div>'+
+SH('Atmospherics & Engineering')+
+'<div class="ext-grid">'+
+E('atmos','🟣','Plasma','ATMOS',
+  ['Plasma tank from Atmospherics department',
+   'Plasma canister (Engineering storage)',
+   'Salvage/mining plasma ore refined'],
+  'CATALYST — never consumed. Used for: Dexalin, Leporazine, Ultravasculine, Ardthyrnkole, Opporozidone.')+
+E('atmos','💨','Healium','ATMOS · RARE',
+  ['Rare atmos gas — check pipe manifold readings',
+   'Salvage anomaly drops (very rare)',
+   'May appear in special atmospheric mixes'],
+  'Used for: Hypothium (most powerful healer in the game: Brute/Burn/Toxin -4.5 + Airloss -6/tick).')+
+'</div>'+
+SH('Salvage & Mining')+
+'<div class="ext-grid">'+
+E('salvage','⛏','Silver','SALVAGE',
+  ['Asteroid mining — silver ore nodes',
+   'Salvage expedition drops',
+   'Cargo order from mining department'],
+  'Used for: SilverSulfadiazine (topical burn treatment).')+
+E('salvage','☢','Uranium','SALVAGE',
+  ['Asteroid mining — uranium ore nodes',
+   'Salvage expedition drops',
+   'Cargo order (radioactive materials, rare)'],
+  'Used for: MuteToxin, EMP reaction (Fe+Uranium+Al).')+
+E('salvage','☠','FerrochromicAcid','SALVAGE · RARE',
+  ['Salvage expedition rare metallic find',
+   'Possibly dropped by certain hostile mobs'],
+  'Used for: Deunomia (Funky-specific toxin). Source not fully documented in repo.')+
+E('salvage','💊','Heparin','SALVAGE · FUNKY',
+  ['Funky-specific reagent — exact source not documented in repo',
+   'Likely salvage event or special cargo drop',
+   'Ask admins or check server-specific documentation'],
+  'Causes Bloodloss 4/tick at 2/s — massive hemorrhage. No synthesis recipe in repo.')+
+'</div>'+
+SH('Security — Taser Residue')+
+'<div class="ext-grid">'+
+E('special','⚡','Licoxide','SEC · TASER RESIDUE',
+  ['Synthesize: Lead [1] + Zinc [1] → Licoxide ×1 (both external)',
+   'Lead: found in station water systems (sabotage source)',
+   'Zinc: external — salvage/cargo',
+   'Also deposited by taser bolts into tased targets'],
+  'Used for: Tazinide (electrocution toxin). Counter: Insuzine clears it from bloodstream.')+
+'</div>'+
+SH('Syndicate Uplink')+
+'<div class="ext-grid">'+
+E('syndie','🔴','Vestine','SYNDIE UPLINK',
+  ['Syndicate uplink — Chemical category',
+   'May appear in salvage rare finds'],
+  'Used for: Lexorin (Airloss 10/tick), MuteToxin, Nocturine, Tazinide. Causes Airloss 2/tick itself.')+
+
+'</div>'+
+SH('Synthesizable from Other Externals')+
+'<div class="ext-grid">'+
+E('special','⚗','Ethyloxyephedrine','SYNTH CHAIN',
+  ['Synthesize: Desoxyephedrine + Stellibinin → ×2',
+   'Desoxyephedrine needs: Ephedrine (from Oil+H+Sugar+Diethylamine) + C + I + P at 370K',
+   'Ephedrine is the main external gate in this chain'],
+  'Used for: Hypothium. Long synthesis chain but fully obtainable without uplink if botany grows Stellibinin.')+
+E('special','⚗','SpaceGlue','SYNTH · SpaceLube + Slime',
+  ['Synthesize: SpaceLube [1] + Slime [1] → ×2 · 370K',
+   'SpaceLube: Sulfuric Acid + Oxygen + Water → ×4 (dispenser ingredients)',
+   'Slime: obtained from Slime mobs (Xenobiology/Salvage)'],
+  'Used for: MuteToxin. Causes hallucinations (Narcotic) and inability to speak (Drink metabolism). Sticks targets to the floor.')+
+E('special','⚗','Siderlac','SYNTH · BOTANY',
+  ['Synthesize: Aloe + Stellibinin → ×2',
+   'Both from botany — entirely self-sufficient with a good botanist'],
+  'Used for: Ardthyrnkole (hot pod cold/caustic), Aloxadone (cryo burn focus), Cognizine chain.')+
+'</div>';
+})();
+
 </script>
 </body>
 </html>
